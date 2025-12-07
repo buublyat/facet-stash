@@ -35,7 +35,7 @@ interface DataTableProps {
   onDelete: (ids: string[]) => void;
 }
 
-type SortableKey = 'title' | 'category' | 'priority' | 'status' | 'createdAt' | 'updatedAt';
+type SortableKey = 'country' | 'machineId' | 'category' | 'priority' | 'status' | 'createdAt' | 'updatedAt';
 
 export function DataTable({
   entries,
@@ -123,15 +123,24 @@ export function DataTable({
               />
             </TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
-              onClick={() => handleSort('title')}
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider w-20"
+              onClick={() => handleSort('country')}
             >
               <span className="flex items-center">
-                TITLE
-                <SortIcon columnKey="title" />
+                CC
+                <SortIcon columnKey="country" />
               </span>
             </TableHead>
             <TableHead 
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
+              onClick={() => handleSort('machineId')}
+            >
+              <span className="flex items-center">
+                MACHINE_ID
+                <SortIcon columnKey="machineId" />
+              </span>
+            </TableHead>
+            <TableHead
               className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('category')}
             >
@@ -185,14 +194,19 @@ export function DataTable({
                   <Checkbox
                     checked={selectedIds.includes(entry.id)}
                     onCheckedChange={() => toggleOne(entry.id)}
-                    aria-label={`Select ${entry.title}`}
+                    aria-label={`Select ${entry.machineId}`}
                   />
+                </TableCell>
+                <TableCell>
+                  <span className="font-mono text-sm text-info font-bold tracking-wider">
+                    {entry.country || '—'}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <div>
                     <p className="font-mono text-sm text-foreground">
                       <span className="text-muted-foreground">{String(index).padStart(2, '0')}.</span>{' '}
-                      {entry.title}
+                      {entry.machineId}
                     </p>
                     {entry.description && (
                       <p className="text-xs text-muted-foreground line-clamp-1 max-w-xs font-mono mt-0.5 pl-6">
@@ -265,7 +279,7 @@ export function DataTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={8} className="h-32 text-center">
+              <TableCell colSpan={9} className="h-32 text-center">
                 <div className="font-mono text-muted-foreground">
                   <p className="text-sm">$ ls -la</p>
                   <p className="text-xs mt-1">drwxr-xr-x 0 entries found</p>

@@ -20,7 +20,8 @@ export interface Tag {
 
 export interface DataEntry {
   id: string;
-  title: string;
+  country: string;
+  machineId: string;
   description: string;
   category: string;
   priority: 'low' | 'medium' | 'high';

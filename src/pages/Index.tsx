@@ -54,7 +54,8 @@ const Index = () => {
   const filteredEntries = useMemo(() => {
     return entries.filter(entry => {
       const matchesSearch = searchQuery === '' || 
-        entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        entry.machineId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        entry.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
         entry.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
         entry.category.toLowerCase().includes(searchQuery.toLowerCase());
       
@@ -89,7 +90,7 @@ const Index = () => {
     const duplicate: DataEntry = {
       ...entry,
       id: generateId(),
-      title: `${entry.title} (Copy)`,
+      machineId: `${entry.machineId}-COPY`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };

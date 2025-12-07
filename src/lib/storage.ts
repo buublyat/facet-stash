@@ -15,7 +15,8 @@ export const defaultTags: Tag[] = [
 export const defaultEntries: DataEntry[] = [
   {
     id: '1',
-    title: 'Project Documentation',
+    country: 'US',
+    machineId: 'SRV-2024-001',
     description: 'Complete the API documentation for the new features',
     category: 'Documentation',
     priority: 'high',
@@ -26,7 +27,8 @@ export const defaultEntries: DataEntry[] = [
   },
   {
     id: '2',
-    title: 'Design Review Meeting',
+    country: 'DE',
+    machineId: 'SRV-2024-002',
     description: 'Review the new dashboard designs with the team',
     category: 'Meetings',
     priority: 'medium',
@@ -37,7 +39,8 @@ export const defaultEntries: DataEntry[] = [
   },
   {
     id: '3',
-    title: 'Bug Fix: Login Issue',
+    country: 'JP',
+    machineId: 'SRV-2024-003',
     description: 'Fix the authentication bug reported by users',
     category: 'Development',
     priority: 'high',
@@ -48,7 +51,8 @@ export const defaultEntries: DataEntry[] = [
   },
   {
     id: '4',
-    title: 'Weekly Report',
+    country: 'GB',
+    machineId: 'SRV-2024-004',
     description: 'Prepare the weekly progress report',
     category: 'Reports',
     priority: 'low',
@@ -104,10 +108,11 @@ export function exportToJSON(entries: DataEntry[], tags: Tag[]): string {
 export function exportToCSV(entries: DataEntry[], tags: Tag[]): string {
   const tagMap = new Map(tags.map(t => [t.id, t.name]));
   
-  const headers = ['ID', 'Title', 'Description', 'Category', 'Priority', 'Status', 'Tags', 'Created At', 'Updated At'];
+  const headers = ['ID', 'Country', 'Machine ID', 'Description', 'Category', 'Priority', 'Status', 'Tags', 'Created At', 'Updated At'];
   const rows = entries.map(entry => [
     entry.id,
-    `"${entry.title.replace(/"/g, '""')}"`,
+    entry.country,
+    `"${entry.machineId.replace(/"/g, '""')}"`,
     `"${entry.description.replace(/"/g, '""')}"`,
     entry.category,
     entry.priority,
