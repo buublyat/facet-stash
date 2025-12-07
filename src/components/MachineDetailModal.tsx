@@ -63,15 +63,27 @@ export function MachineDetailModal({ open, onClose, entry, tags }: MachineDetail
           <div className="grid grid-cols-3 gap-4">
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- EMAIL</span>
-              <p className="text-accent mt-1 break-all">
-                {entry.email || '—'}
-              </p>
+              <div className="mt-1">
+                <span className={`px-2 py-1 text-xs font-mono border rounded ${
+                  entry.email === 'yes' 
+                    ? 'bg-success/20 border-success/50 text-success' 
+                    : 'bg-destructive/20 border-destructive/50 text-destructive'
+                }`}>
+                  [ {entry.email?.toUpperCase() || 'NO'} ]
+                </span>
+              </div>
             </div>
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- AUTH</span>
-              <p className="text-warning mt-1 break-all">
-                {entry.auth || '—'}
-              </p>
+              <div className="mt-1">
+                <span className={`px-2 py-1 text-xs font-mono border rounded ${
+                  entry.auth === 'auto' 
+                    ? 'bg-info/20 border-info/50 text-info' 
+                    : 'bg-warning/20 border-warning/50 text-warning'
+                }`}>
+                  [ {entry.auth?.toUpperCase() || 'AUTO'} ]
+                </span>
+              </div>
             </div>
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- STATUS</span>
