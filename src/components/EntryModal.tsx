@@ -27,6 +27,8 @@ const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
   priority: 'medium',
   status: 'active',
   tags: [],
+  email: '',
+  auth: '',
 };
 
 export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalProps) {
@@ -43,6 +45,8 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         priority: entry.priority,
         status: entry.status,
         tags: entry.tags,
+        email: entry.email || '',
+        auth: entry.auth || '',
       });
     } else {
       setFormData(defaultEntry);
@@ -123,33 +127,26 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="category" className="text-xs text-muted-foreground uppercase tracking-wider">--category</Label>
+              <Label htmlFor="email" className="text-xs text-muted-foreground uppercase tracking-wider">--email</Label>
               <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                placeholder="/work, /personal"
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="user@example.com"
                 className="bg-background border-border focus:border-primary font-mono"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="priority" className="text-xs text-muted-foreground uppercase tracking-wider">--priority</Label>
-              <Select
-                value={formData.priority}
-                onValueChange={(value: 'low' | 'medium' | 'high') => 
-                  setFormData(prev => ({ ...prev, priority: value }))
-                }
-              >
-                <SelectTrigger className="bg-background border-border font-mono">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-card border-border font-mono">
-                  <SelectItem value="low">▂░░ LOW</SelectItem>
-                  <SelectItem value="medium">▂▄░ MEDIUM</SelectItem>
-                  <SelectItem value="high">▂▄▆ HIGH</SelectItem>
-                </SelectContent>
-              </Select>
+              <Label htmlFor="auth" className="text-xs text-muted-foreground uppercase tracking-wider">--auth</Label>
+              <Input
+                id="auth"
+                value={formData.auth}
+                onChange={(e) => setFormData(prev => ({ ...prev, auth: e.target.value }))}
+                placeholder="AUTH_TOKEN"
+                className="bg-background border-border focus:border-primary font-mono"
+              />
             </div>
           </div>
 
