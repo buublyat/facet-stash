@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-type Status = 'active' | 'pending' | 'completed' | 'archived';
+type Status = 'active' | 'pending' | 'completed' | 'archived' | 'error';
 
 interface StatusBadgeProps {
   status: Status;
@@ -26,6 +26,11 @@ const statusConfig: Record<Status, { label: string; prefix: string; className: s
     label: 'ARCHIVED',
     prefix: '▣',
     className: 'text-muted-foreground border-muted bg-muted/50',
+  },
+  error: {
+    label: 'ERROR',
+    prefix: '✕',
+    className: 'text-destructive border-destructive/40 bg-destructive/10',
   },
 };
 

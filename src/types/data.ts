@@ -25,7 +25,7 @@ export interface DataEntry {
   description: string;
   category: string;
   priority: 'low' | 'medium' | 'high';
-  status: 'active' | 'pending' | 'completed' | 'archived';
+  status: 'active' | 'pending' | 'completed' | 'archived' | 'error';
   tags: string[];
   email: 'yes' | 'no';
   auth: 'auto' | 'pass';
