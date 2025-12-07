@@ -233,7 +233,7 @@ export function DataTable({
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-40 bg-card border-border font-mono text-xs">
+                    <DropdownMenuContent align="end" className="w-48 bg-background border-border font-mono text-xs z-50 shadow-lg shadow-primary/10">
                       <DropdownMenuItem onClick={() => onEdit(entry)}>
                         <Pencil className="h-3 w-3 mr-2" />
                         vim {entry.id}
