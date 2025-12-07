@@ -180,9 +180,6 @@ const Index = () => {
           onSearchChange={setSearchQuery}
           onAddEntry={handleAddEntry}
           onManageTags={() => setTagManagerOpen(true)}
-          onExportJSON={handleExportJSON}
-          onExportCSV={handleExportCSV}
-          onImport={() => setImportModalOpen(true)}
           selectedCount={selectedIds.length}
           onDeleteSelected={() => handleDeleteEntries(selectedIds)}
         />
