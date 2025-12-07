@@ -38,7 +38,7 @@ const colorClasses: Record<TagColor, string> = {
 
 export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProps) {
   const [newTagName, setNewTagName] = useState('');
-  const [newTagColor, setNewTagColor] = useState<TagColor>('blue');
+  const [newTagColor, setNewTagColor] = useState<TagColor>('cyan');
 
   const handleAddTag = () => {
     if (!newTagName.trim()) return;
@@ -59,20 +59,22 @@ export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProp
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[450px] animate-scale-in">
+      <DialogContent className="sm:max-w-[450px] animate-scale-in bg-card border-border terminal-border font-mono">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Manage Tags</DialogTitle>
+          <DialogTitle className="text-lg font-bold text-primary glow">
+            <span className="text-muted-foreground">$</span> tag --manage<span className="animate-blink">_</span>
+          </DialogTitle>
         </DialogHeader>
         
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>Create New Tag</Label>
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">--new-tag</Label>
             <div className="flex gap-2">
               <Input
                 value={newTagName}
                 onChange={(e) => setNewTagName(e.target.value)}
-                placeholder="Tag name..."
-                className="flex-1"
+                placeholder="tag_name"
+                className="flex-1 bg-background border-border font-mono"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();
@@ -80,18 +82,18 @@ export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProp
                   }
                 }}
               />
-              <Button onClick={handleAddTag} size="icon">
+              <Button onClick={handleAddTag} size="icon" className="glitch-hover">
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
-            <div className="flex flex-wrap gap-1 pt-1">
+            <div className="flex flex-wrap gap-1.5 pt-2">
               {tagColors.map(color => (
                 <button
                   key={color}
                   className={cn(
-                    'w-6 h-6 rounded-full transition-all',
+                    'w-5 h-5 transition-all',
                     colorClasses[color],
-                    newTagColor === color && 'ring-2 ring-offset-2 ring-foreground/50'
+                    newTagColor === color && 'ring-2 ring-offset-2 ring-offset-background ring-foreground scale-110'
                   )}
                   onClick={() => setNewTagColor(color)}
                 />
@@ -100,20 +102,23 @@ export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProp
           </div>
 
           <div className="space-y-2">
-            <Label>Existing Tags</Label>
-            <div className="border rounded-lg p-3 max-h-[250px] overflow-y-auto scrollbar-thin">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">--existing-tags</Label>
+            <div className="border border-border p-3 max-h-[250px] overflow-y-auto bg-background">
               {tags.length > 0 ? (
                 <div className="space-y-2">
-                  {tags.map(tag => (
+                  {tags.map((tag, index) => (
                     <div
                       key={tag.id}
-                      className="flex items-center justify-between p-2 rounded-md bg-muted/50 hover:bg-muted transition-colors"
+                      className="flex items-center justify-between p-2 border border-border hover:border-primary/50 transition-colors"
                     >
-                      <TagBadge tag={tag} size="sm" />
+                      <div className="flex items-center gap-2">
+                        <span className="text-muted-foreground text-xs">{String(index).padStart(2, '0')}.</span>
+                        <TagBadge tag={tag} size="sm" />
+                      </div>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive glitch-hover"
                         onClick={() => handleDeleteTag(tag.id)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -122,8 +127,8 @@ export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProp
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-muted-foreground text-center py-4">
-                  No tags created yet
+                <p className="text-xs text-muted-foreground text-center py-4">
+                  // no tags found
                 </p>
               )}
             </div>
@@ -131,7 +136,7 @@ export function TagManager({ open, onClose, tags, onTagsChange }: TagManagerProp
         </div>
 
         <DialogFooter>
-          <Button onClick={onClose}>Done</Button>
+          <Button onClick={onClose} className="font-mono text-xs glitch-hover">[DONE]</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

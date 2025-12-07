@@ -18,7 +18,7 @@ import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
 import { DeleteConfirmDialog } from '@/components/DeleteConfirmDialog';
 import { toast } from 'sonner';
-import { Database } from 'lucide-react';
+import { Terminal } from 'lucide-react';
 
 const Index = () => {
   const [entries, setEntries] = useState<DataEntry[]>([]);
@@ -78,10 +78,10 @@ const Index = () => {
   const handleSaveEntry = (entry: DataEntry) => {
     if (editingEntry) {
       setEntries(prev => prev.map(e => e.id === entry.id ? entry : e));
-      toast.success('Entry updated');
+      toast.success('Entry updated successfully');
     } else {
       setEntries(prev => [entry, ...prev]);
-      toast.success('Entry created');
+      toast.success('Entry created successfully');
     }
   };
 
@@ -146,24 +146,34 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
+    <div className="min-h-screen bg-background relative">
+      {/* Scanlines overlay */}
+      <div className="fixed inset-0 scanlines pointer-events-none z-50" />
+
+      <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/10">
-              <Database className="h-6 w-6 text-primary" />
+            <div className="p-2 terminal-border bg-primary/10">
+              <Terminal className="h-6 w-6 text-primary glow" />
             </div>
-            <div>
-              <h1 className="text-xl font-semibold text-foreground">Data Manager</h1>
-              <p className="text-sm text-muted-foreground">
-                {entries.length} {entries.length === 1 ? 'entry' : 'entries'} • {tags.length} tags
+            <div className="font-mono">
+              <h1 className="text-lg font-bold text-primary glow tracking-wider">
+                DATA_MANAGER<span className="animate-blink">_</span>
+              </h1>
+              <p className="text-xs text-muted-foreground">
+                <span className="text-accent">$</span> entries: {entries.length} | tags: {tags.length} | selected: {selectedIds.length}
               </p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main className="container mx-auto px-4 py-6 space-y-4">
+        {/* ASCII art divider */}
+        <div className="text-center text-muted-foreground/30 font-mono text-xs overflow-hidden select-none">
+          ═══════════════════════════════════════════════════════════════════
+        </div>
+
         <ActionToolbar
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -177,12 +187,14 @@ const Index = () => {
         />
 
         {tags.length > 0 && (
-          <TagFilter
-            tags={tags}
-            selectedTags={filterTags}
-            onTagToggle={handleTagToggle}
-            onClearFilter={() => setFilterTags([])}
-          />
+          <div className="terminal-border bg-card p-3">
+            <TagFilter
+              tags={tags}
+              selectedTags={filterTags}
+              onTagToggle={handleTagToggle}
+              onClearFilter={() => setFilterTags([])}
+            />
+          </div>
         )}
 
         <DataTable
@@ -194,6 +206,15 @@ const Index = () => {
           onDuplicate={handleDuplicateEntry}
           onDelete={handleDeleteEntries}
         />
+
+        {/* Footer */}
+        <div className="text-center text-muted-foreground/30 font-mono text-xs py-4">
+          <span className="text-muted-foreground/50">[</span>
+          EOF
+          <span className="text-muted-foreground/50">]</span>
+          {' '}• LocalStorage v1.0 • 
+          <span className="text-primary/50"> Connection: SECURE </span>
+        </div>
       </main>
 
       <EntryModal
