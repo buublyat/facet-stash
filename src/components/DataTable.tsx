@@ -12,7 +12,6 @@ import {
   ArrowDown, 
   MoreHorizontal, 
   Pencil, 
-  Copy, 
   Trash2 
 } from 'lucide-react';
 import {
@@ -31,8 +30,8 @@ interface DataTableProps {
   selectedIds: string[];
   onSelectionChange: (ids: string[]) => void;
   onEdit: (entry: DataEntry) => void;
-  onDuplicate: (entry: DataEntry) => void;
   onDelete: (ids: string[]) => void;
+  onViewDetails: (entry: DataEntry) => void;
 }
 
 type SortableKey = 'country' | 'machineId' | 'category' | 'priority' | 'status' | 'createdAt' | 'updatedAt';
@@ -43,8 +42,8 @@ export function DataTable({
   selectedIds,
   onSelectionChange,
   onEdit,
-  onDuplicate,
   onDelete,
+  onViewDetails,
 }: DataTableProps) {
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
 
@@ -203,10 +202,15 @@ export function DataTable({
                   </span>
                 </TableCell>
                 <TableCell>
-                  <div>
-                    <p className="font-mono text-sm text-foreground">
+                  <div 
+                    className="cursor-pointer hover:text-primary transition-colors"
+                    onClick={() => onViewDetails(entry)}
+                  >
+                    <p className="font-mono text-sm text-foreground hover:text-primary">
                       <span className="text-muted-foreground">{String(index).padStart(2, '0')}.</span>{' '}
-                      {entry.machineId}
+                      <span className="underline underline-offset-2 decoration-primary/50 hover:decoration-primary">
+                        {entry.machineId}
+                      </span>
                     </p>
                     {entry.description && (
                       <p className="text-xs text-muted-foreground line-clamp-1 max-w-xs font-mono mt-0.5 pl-6">

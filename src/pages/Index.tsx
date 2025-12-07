@@ -17,6 +17,7 @@ import { EntryModal } from '@/components/EntryModal';
 import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
 import { DeleteConfirmDialog } from '@/components/DeleteConfirmDialog';
+import { MachineDetailModal } from '@/components/MachineDetailModal';
 import { toast } from 'sonner';
 import { Terminal } from 'lucide-react';
 
@@ -33,6 +34,7 @@ const Index = () => {
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [pendingDeleteIds, setPendingDeleteIds] = useState<string[]>([]);
+  const [detailEntry, setDetailEntry] = useState<DataEntry | null>(null);
 
   useEffect(() => {
     setEntries(loadEntries());
@@ -201,8 +203,8 @@ const Index = () => {
           selectedIds={selectedIds}
           onSelectionChange={setSelectedIds}
           onEdit={handleEditEntry}
-          onDuplicate={handleDuplicateEntry}
           onDelete={handleDeleteEntries}
+          onViewDetails={setDetailEntry}
         />
 
         {/* Footer */}
@@ -241,6 +243,13 @@ const Index = () => {
         onClose={() => setDeleteDialogOpen(false)}
         onConfirm={confirmDelete}
         count={pendingDeleteIds.length}
+      />
+
+      <MachineDetailModal
+        open={!!detailEntry}
+        onClose={() => setDetailEntry(null)}
+        entry={detailEntry}
+        tags={tags}
       />
     </div>
   );
