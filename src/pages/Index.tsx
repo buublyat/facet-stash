@@ -274,6 +274,10 @@ const Index = () => {
         onClose={() => setDetailEntry(null)}
         entry={detailEntry}
         tags={tags}
+        onUpdateEntry={(updatedEntry) => {
+          setEntries(prev => prev.map(e => e.id === updatedEntry.id ? updatedEntry : e));
+          setDetailEntry(updatedEntry);
+        }}
       />
     </div>
   );
