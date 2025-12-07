@@ -179,7 +179,7 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
             <Label htmlFor="status" className="text-xs text-muted-foreground uppercase tracking-wider">--status</Label>
             <Select
               value={formData.status}
-              onValueChange={(value: 'active' | 'pending' | 'completed' | 'archived') => 
+              onValueChange={(value: 'active' | 'pending' | 'completed' | 'archived' | 'error') => 
                 setFormData(prev => ({ ...prev, status: value }))
               }
             >
@@ -191,6 +191,7 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
                 <SelectItem value="pending">◐ PENDING</SelectItem>
                 <SelectItem value="completed">✓ COMPLETED</SelectItem>
                 <SelectItem value="archived">▣ ARCHIVED</SelectItem>
+                <SelectItem value="error">✕ ERROR</SelectItem>
               </SelectContent>
             </Select>
           </div>
