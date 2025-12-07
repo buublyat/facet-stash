@@ -27,8 +27,8 @@ export interface DataEntry {
   priority: 'low' | 'medium' | 'high';
   status: 'active' | 'pending' | 'completed' | 'archived';
   tags: string[];
-  email: string;
-  auth: string;
+  email: 'yes' | 'no';
+  auth: 'auto' | 'pass';
   createdAt: string;
   updatedAt: string;
 }

@@ -27,8 +27,8 @@ const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
   priority: 'medium',
   status: 'active',
   tags: [],
-  email: '',
-  auth: '',
+  email: 'no',
+  auth: 'auto',
 };
 
 export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalProps) {
@@ -45,8 +45,8 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         priority: entry.priority,
         status: entry.status,
         tags: entry.tags,
-        email: entry.email || '',
-        auth: entry.auth || '',
+        email: entry.email || 'no',
+        auth: entry.auth || 'auto',
       });
     } else {
       setFormData(defaultEntry);
@@ -127,26 +127,51 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs text-muted-foreground uppercase tracking-wider">--email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                placeholder="user@example.com"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
+              <Label className="text-xs text-muted-foreground uppercase tracking-wider">--email</Label>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant={formData.email === 'yes' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFormData(prev => ({ ...prev, email: 'yes' }))}
+                  className="flex-1 font-mono text-xs"
+                >
+                  [ YES ]
+                </Button>
+                <Button
+                  type="button"
+                  variant={formData.email === 'no' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFormData(prev => ({ ...prev, email: 'no' }))}
+                  className="flex-1 font-mono text-xs"
+                >
+                  [ NO ]
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="auth" className="text-xs text-muted-foreground uppercase tracking-wider">--auth</Label>
-              <Input
-                id="auth"
-                value={formData.auth}
-                onChange={(e) => setFormData(prev => ({ ...prev, auth: e.target.value }))}
-                placeholder="AUTH_TOKEN"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
+              <Label className="text-xs text-muted-foreground uppercase tracking-wider">--auth</Label>
+              <div className="flex gap-2">
+                <Button
+                  type="button"
+                  variant={formData.auth === 'auto' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFormData(prev => ({ ...prev, auth: 'auto' }))}
+                  className="flex-1 font-mono text-xs"
+                >
+                  [ AUTO ]
+                </Button>
+                <Button
+                  type="button"
+                  variant={formData.auth === 'pass' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setFormData(prev => ({ ...prev, auth: 'pass' }))}
+                  className="flex-1 font-mono text-xs"
+                >
+                  [ PASS ]
+                </Button>
+              </div>
             </div>
           </div>
 
