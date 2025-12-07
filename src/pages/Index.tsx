@@ -13,6 +13,7 @@ import {
 import { DataTable } from '@/components/DataTable';
 import { ActionToolbar } from '@/components/ActionToolbar';
 import { TagFilter } from '@/components/TagFilter';
+import { CountryFilter } from '@/components/CountryFilter';
 import { EntryModal } from '@/components/EntryModal';
 import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
@@ -27,6 +28,7 @@ const Index = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTags, setFilterTags] = useState<string[]>([]);
+  const [filterCountries, setFilterCountries] = useState<string[]>([]);
   
   const [entryModalOpen, setEntryModalOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<DataEntry | null>(null);
@@ -53,6 +55,11 @@ const Index = () => {
     }
   }, [tags]);
 
+  const availableCountries = useMemo(() => {
+    const countries = new Set(entries.map(e => e.country?.toUpperCase()).filter(Boolean));
+    return Array.from(countries).sort();
+  }, [entries]);
+
   const filteredEntries = useMemo(() => {
     return entries.filter(entry => {
       const matchesSearch = searchQuery === '' || 
@@ -64,9 +71,20 @@ const Index = () => {
       const matchesTags = filterTags.length === 0 ||
         filterTags.every(tagId => entry.tags.includes(tagId));
       
-      return matchesSearch && matchesTags;
+      const matchesCountry = filterCountries.length === 0 ||
+        filterCountries.includes(entry.country?.toUpperCase());
+      
+      return matchesSearch && matchesTags && matchesCountry;
     });
-  }, [entries, searchQuery, filterTags]);
+  }, [entries, searchQuery, filterTags, filterCountries]);
+
+  const handleCountryToggle = (country: string) => {
+    setFilterCountries(prev => 
+      prev.includes(country) 
+        ? prev.filter(c => c !== country)
+        : [...prev, country]
+    );
+  };
 
   const handleAddEntry = () => {
     setEditingEntry(null);
@@ -186,16 +204,22 @@ const Index = () => {
           onDeleteSelected={() => handleDeleteEntries(selectedIds)}
         />
 
-        {tags.length > 0 && (
-          <div className="terminal-border bg-card p-3">
+        <div className="terminal-border bg-card p-3 space-y-3">
+          <CountryFilter
+            selectedCountries={filterCountries}
+            onCountryToggle={handleCountryToggle}
+            onClearFilter={() => setFilterCountries([])}
+            availableCountries={availableCountries}
+          />
+          {tags.length > 0 && (
             <TagFilter
               tags={tags}
               selectedTags={filterTags}
               onTagToggle={handleTagToggle}
               onClearFilter={() => setFilterTags([])}
             />
-          </div>
-        )}
+          )}
+        </div>
 
         <DataTable
           entries={filteredEntries}
