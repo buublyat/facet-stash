@@ -64,25 +64,41 @@ export function MachineDetailModal({ open, onClose, entry, tags }: MachineDetail
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- EMAIL</span>
               <div className="mt-1">
-                <span className={`px-2 py-1 text-xs font-mono border rounded ${
-                  entry.email === 'yes' 
-                    ? 'bg-success/20 border-success/50 text-success' 
-                    : 'bg-destructive/20 border-destructive/50 text-destructive'
-                }`}>
-                  [ {entry.email?.toUpperCase() || 'NO'} ]
-                </span>
+                {(() => {
+                  const isYes = entry.email === 'yes';
+                  const isNo = entry.email === 'no';
+                  const displayValue = isYes ? 'YES' : isNo ? 'NO' : 'NO';
+                  const isPositive = isYes;
+                  return (
+                    <span className={`px-2 py-1 text-xs font-mono border rounded ${
+                      isPositive 
+                        ? 'bg-success/20 border-success/50 text-success' 
+                        : 'bg-destructive/20 border-destructive/50 text-destructive'
+                    }`}>
+                      [ {displayValue} ]
+                    </span>
+                  );
+                })()}
               </div>
             </div>
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- AUTH</span>
               <div className="mt-1">
-                <span className={`px-2 py-1 text-xs font-mono border rounded ${
-                  entry.auth === 'auto' 
-                    ? 'bg-info/20 border-info/50 text-info' 
-                    : 'bg-warning/20 border-warning/50 text-warning'
-                }`}>
-                  [ {entry.auth?.toUpperCase() || 'AUTO'} ]
-                </span>
+                {(() => {
+                  const isAuto = entry.auth === 'auto';
+                  const isPass = entry.auth === 'pass';
+                  const displayValue = isAuto ? 'AUTO' : isPass ? 'PASS' : 'AUTO';
+                  const isAutoMode = isAuto || (!isPass);
+                  return (
+                    <span className={`px-2 py-1 text-xs font-mono border rounded ${
+                      isAutoMode 
+                        ? 'bg-info/20 border-info/50 text-info' 
+                        : 'bg-warning/20 border-warning/50 text-warning'
+                    }`}>
+                      [ {displayValue} ]
+                    </span>
+                  );
+                })()}
               </div>
             </div>
             <div>
