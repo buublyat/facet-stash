@@ -2,30 +2,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
   Plus, 
-  Search, 
   Tags, 
-  Download, 
-  Upload, 
-  Trash2,
-  FileJson,
-  FileSpreadsheet,
-  Terminal
+  Trash2
 } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 interface ActionToolbarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
   onAddEntry: () => void;
   onManageTags: () => void;
-  onExportJSON: () => void;
-  onExportCSV: () => void;
-  onImport: () => void;
   selectedCount: number;
   onDeleteSelected: () => void;
 }
@@ -35,9 +20,6 @@ export function ActionToolbar({
   onSearchChange,
   onAddEntry,
   onManageTags,
-  onExportJSON,
-  onExportCSV,
-  onImport,
   selectedCount,
   onDeleteSelected,
 }: ActionToolbarProps) {
@@ -65,30 +47,6 @@ export function ActionToolbar({
         <Button variant="outline" onClick={onManageTags} className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
           <Tags className="h-4 w-4" />
           [TAGS]
-        </Button>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
-              <Download className="h-4 w-4" />
-              [EXPORT]
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="bg-card border-border font-mono">
-            <DropdownMenuItem onClick={onExportJSON} className="text-xs">
-              <FileJson className="h-4 w-4 mr-2" />
-              export --format=json
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={onExportCSV} className="text-xs">
-              <FileSpreadsheet className="h-4 w-4 mr-2" />
-              export --format=csv
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-
-        <Button variant="outline" onClick={onImport} className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
-          <Upload className="h-4 w-4" />
-          [IMPORT]
         </Button>
 
         {selectedCount > 0 && (
