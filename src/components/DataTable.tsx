@@ -260,10 +260,6 @@ export function DataTable({
                         <Pencil className="h-3 w-3 mr-2" />
                         vim {entry.id}
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => onDuplicate(entry)}>
-                        <Copy className="h-3 w-3 mr-2" />
-                        cp --clone
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-border" />
                       <DropdownMenuItem 
                         onClick={() => onDelete([entry.id])}
