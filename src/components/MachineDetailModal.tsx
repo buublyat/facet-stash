@@ -49,7 +49,7 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-lg animate-scale-in bg-card border-border terminal-border font-mono">
+      <DialogContent className="max-w-2xl animate-scale-in bg-card border-border terminal-border font-mono">
         <DialogHeader>
           <DialogTitle className="text-primary glow font-bold">
             <span className="text-muted-foreground">$</span> cat /proc/{entry.machineId}<span className="animate-blink">_</span>
