@@ -14,7 +14,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ["'Fira Code'", "'Space Mono'", "'Courier New'", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -41,6 +41,10 @@ export default {
         warning: {
           DEFAULT: "hsl(var(--warning))",
           foreground: "hsl(var(--warning-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -71,6 +75,10 @@ export default {
           purple: "hsl(var(--tag-purple))",
           pink: "hsl(var(--tag-pink))",
           rose: "hsl(var(--tag-rose))",
+        },
+        glitch: {
+          1: "hsl(var(--glitch-1))",
+          2: "hsl(var(--glitch-2))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",

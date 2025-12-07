@@ -90,19 +90,31 @@ export function DataTable({
 
   const SortIcon = ({ columnKey }: { columnKey: SortableKey }) => {
     if (sortConfig?.key !== columnKey) {
-      return <ArrowUpDown className="h-4 w-4 ml-1 opacity-50" />;
+      return <ArrowUpDown className="h-3 w-3 ml-1 opacity-30" />;
     }
     return sortConfig.direction === 'asc' 
-      ? <ArrowUp className="h-4 w-4 ml-1" />
-      : <ArrowDown className="h-4 w-4 ml-1" />;
+      ? <ArrowUp className="h-3 w-3 ml-1 text-primary" />
+      : <ArrowDown className="h-3 w-3 ml-1 text-primary" />;
   };
 
   return (
-    <div className="border rounded-lg bg-card overflow-hidden">
+    <div className="terminal-border bg-card overflow-hidden">
+      {/* Terminal header */}
+      <div className="flex items-center gap-2 px-3 py-2 border-b border-border bg-secondary/50">
+        <div className="flex gap-1.5">
+          <span className="w-3 h-3 rounded-full bg-destructive/80" />
+          <span className="w-3 h-3 rounded-full bg-warning/80" />
+          <span className="w-3 h-3 rounded-full bg-success/80" />
+        </div>
+        <span className="text-xs text-muted-foreground font-mono ml-2">
+          ~/data-manager $ ls -la --entries={entries.length}
+        </span>
+      </div>
+
       <Table>
         <TableHeader>
-          <TableRow className="bg-muted/50 hover:bg-muted/50">
-            <TableHead className="w-12">
+          <TableRow className="border-border hover:bg-transparent">
+            <TableHead className="w-12 text-muted-foreground font-mono text-xs">
               <Checkbox
                 checked={allSelected}
                 onCheckedChange={toggleAll}
@@ -111,48 +123,48 @@ export function DataTable({
               />
             </TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-foreground transition-colors"
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('title')}
             >
               <span className="flex items-center">
-                Title
+                TITLE
                 <SortIcon columnKey="title" />
               </span>
             </TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-foreground transition-colors"
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('category')}
             >
               <span className="flex items-center">
-                Category
+                CATEGORY
                 <SortIcon columnKey="category" />
               </span>
             </TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-foreground transition-colors"
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('priority')}
             >
               <span className="flex items-center">
-                Priority
+                PRIORITY
                 <SortIcon columnKey="priority" />
               </span>
             </TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-foreground transition-colors"
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('status')}
             >
               <span className="flex items-center">
-                Status
+                STATUS
                 <SortIcon columnKey="status" />
               </span>
             </TableHead>
-            <TableHead>Tags</TableHead>
+            <TableHead className="font-mono text-xs uppercase tracking-wider text-muted-foreground">TAGS</TableHead>
             <TableHead 
-              className="cursor-pointer hover:text-foreground transition-colors"
+              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('updatedAt')}
             >
               <span className="flex items-center">
-                Updated
+                MODIFIED
                 <SortIcon columnKey="updatedAt" />
               </span>
             </TableHead>
@@ -161,11 +173,11 @@ export function DataTable({
         </TableHeader>
         <TableBody>
           {sortedEntries.length > 0 ? (
-            sortedEntries.map((entry) => (
+            sortedEntries.map((entry, index) => (
               <TableRow 
                 key={entry.id}
                 className={cn(
-                  'group transition-colors',
+                  'group transition-colors border-border',
                   selectedIds.includes(entry.id) && 'bg-primary/5'
                 )}
               >
@@ -178,16 +190,21 @@ export function DataTable({
                 </TableCell>
                 <TableCell>
                   <div>
-                    <p className="font-medium">{entry.title}</p>
+                    <p className="font-mono text-sm text-foreground">
+                      <span className="text-muted-foreground">{String(index).padStart(2, '0')}.</span>{' '}
+                      {entry.title}
+                    </p>
                     {entry.description && (
-                      <p className="text-sm text-muted-foreground line-clamp-1 max-w-xs">
-                        {entry.description}
+                      <p className="text-xs text-muted-foreground line-clamp-1 max-w-xs font-mono mt-0.5 pl-6">
+                        # {entry.description}
                       </p>
                     )}
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{entry.category || '—'}</span>
+                  <span className="text-xs font-mono text-accent">
+                    {entry.category ? `/${entry.category.toLowerCase().replace(/\s+/g, '-')}` : '—'}
+                  </span>
                 </TableCell>
                 <TableCell>
                   <PriorityBadge priority={entry.priority} />
@@ -204,14 +221,14 @@ export function DataTable({
                       ) : null;
                     })}
                     {entry.tags.length > 3 && (
-                      <span className="text-xs text-muted-foreground px-2 py-0.5">
+                      <span className="text-[10px] text-muted-foreground px-1 font-mono">
                         +{entry.tags.length - 3}
                       </span>
                     )}
                   </div>
                 </TableCell>
-                <TableCell className="text-sm text-muted-foreground">
-                  {format(new Date(entry.updatedAt), 'MMM d, yyyy')}
+                <TableCell className="text-xs text-muted-foreground font-mono">
+                  {format(new Date(entry.updatedAt), 'yyyy-MM-dd')}
                 </TableCell>
                 <TableCell>
                   <DropdownMenu>
@@ -224,22 +241,22 @@ export function DataTable({
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-40">
+                    <DropdownMenuContent align="end" className="w-40 bg-card border-border font-mono text-xs">
                       <DropdownMenuItem onClick={() => onEdit(entry)}>
-                        <Pencil className="h-4 w-4 mr-2" />
-                        Edit
+                        <Pencil className="h-3 w-3 mr-2" />
+                        vim {entry.id}
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => onDuplicate(entry)}>
-                        <Copy className="h-4 w-4 mr-2" />
-                        Duplicate
+                        <Copy className="h-3 w-3 mr-2" />
+                        cp --clone
                       </DropdownMenuItem>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className="bg-border" />
                       <DropdownMenuItem 
                         onClick={() => onDelete([entry.id])}
                         className="text-destructive focus:text-destructive"
                       >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Delete
+                        <Trash2 className="h-3 w-3 mr-2" />
+                        rm -rf
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -249,7 +266,11 @@ export function DataTable({
           ) : (
             <TableRow>
               <TableCell colSpan={8} className="h-32 text-center">
-                <p className="text-muted-foreground">No entries found</p>
+                <div className="font-mono text-muted-foreground">
+                  <p className="text-sm">$ ls -la</p>
+                  <p className="text-xs mt-1">drwxr-xr-x 0 entries found</p>
+                  <p className="text-xs text-primary mt-2">{">"} No data. Run [NEW] to create entry.</p>
+                </div>
               </TableCell>
             </TableRow>
           )}

@@ -11,40 +11,42 @@ interface TagBadgeProps {
 }
 
 const colorClasses: Record<TagColor, string> = {
-  red: 'bg-tag-red/15 text-tag-red border-tag-red/30 hover:bg-tag-red/25',
-  orange: 'bg-tag-orange/15 text-tag-orange border-tag-orange/30 hover:bg-tag-orange/25',
-  amber: 'bg-tag-amber/15 text-tag-amber border-tag-amber/30 hover:bg-tag-amber/25',
-  lime: 'bg-tag-lime/15 text-tag-lime border-tag-lime/30 hover:bg-tag-lime/25',
-  green: 'bg-tag-green/15 text-tag-green border-tag-green/30 hover:bg-tag-green/25',
-  teal: 'bg-tag-teal/15 text-tag-teal border-tag-teal/30 hover:bg-tag-teal/25',
-  cyan: 'bg-tag-cyan/15 text-tag-cyan border-tag-cyan/30 hover:bg-tag-cyan/25',
-  blue: 'bg-tag-blue/15 text-tag-blue border-tag-blue/30 hover:bg-tag-blue/25',
-  indigo: 'bg-tag-indigo/15 text-tag-indigo border-tag-indigo/30 hover:bg-tag-indigo/25',
-  purple: 'bg-tag-purple/15 text-tag-purple border-tag-purple/30 hover:bg-tag-purple/25',
-  pink: 'bg-tag-pink/15 text-tag-pink border-tag-pink/30 hover:bg-tag-pink/25',
-  rose: 'bg-tag-rose/15 text-tag-rose border-tag-rose/30 hover:bg-tag-rose/25',
+  red: 'border-tag-red/60 text-tag-red bg-tag-red/10 hover:bg-tag-red/20',
+  orange: 'border-tag-orange/60 text-tag-orange bg-tag-orange/10 hover:bg-tag-orange/20',
+  amber: 'border-tag-amber/60 text-tag-amber bg-tag-amber/10 hover:bg-tag-amber/20',
+  lime: 'border-tag-lime/60 text-tag-lime bg-tag-lime/10 hover:bg-tag-lime/20',
+  green: 'border-tag-green/60 text-tag-green bg-tag-green/10 hover:bg-tag-green/20',
+  teal: 'border-tag-teal/60 text-tag-teal bg-tag-teal/10 hover:bg-tag-teal/20',
+  cyan: 'border-tag-cyan/60 text-tag-cyan bg-tag-cyan/10 hover:bg-tag-cyan/20',
+  blue: 'border-tag-blue/60 text-tag-blue bg-tag-blue/10 hover:bg-tag-blue/20',
+  indigo: 'border-tag-indigo/60 text-tag-indigo bg-tag-indigo/10 hover:bg-tag-indigo/20',
+  purple: 'border-tag-purple/60 text-tag-purple bg-tag-purple/10 hover:bg-tag-purple/20',
+  pink: 'border-tag-pink/60 text-tag-pink bg-tag-pink/10 hover:bg-tag-pink/20',
+  rose: 'border-tag-rose/60 text-tag-rose bg-tag-rose/10 hover:bg-tag-rose/20',
 };
 
 export function TagBadge({ tag, size = 'md', onRemove, onClick, selected }: TagBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 rounded-full border font-medium transition-all cursor-default',
+        'inline-flex items-center gap-1 border font-mono transition-all cursor-default',
         colorClasses[tag.color],
-        size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-xs',
-        onClick && 'cursor-pointer',
-        selected && 'ring-2 ring-offset-1 ring-primary/50'
+        size === 'sm' ? 'px-1.5 py-0.5 text-[10px]' : 'px-2 py-0.5 text-xs',
+        onClick && 'cursor-pointer glitch-hover',
+        selected && 'ring-1 ring-offset-1 ring-offset-background ring-primary glow-box'
       )}
       onClick={onClick}
     >
+      <span className="opacity-60">[</span>
       {tag.name}
+      <span className="opacity-60">]</span>
       {onRemove && (
         <button
           onClick={(e) => {
             e.stopPropagation();
             onRemove();
           }}
-          className="ml-0.5 rounded-full p-0.5 hover:bg-foreground/10 transition-colors"
+          className="ml-0.5 p-0.5 hover:text-destructive transition-colors"
         >
           <X className="h-3 w-3" />
         </button>

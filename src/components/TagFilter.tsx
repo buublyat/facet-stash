@@ -12,8 +12,10 @@ interface TagFilterProps {
 
 export function TagFilter({ tags, selectedTags, onTagToggle, onClearFilter }: TagFilterProps) {
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-sm font-medium text-muted-foreground">Filter by tags:</span>
+    <div className="flex items-center gap-3 flex-wrap font-mono">
+      <span className="text-xs text-muted-foreground">
+        <span className="text-accent">$</span> filter --tags=
+      </span>
       <div className="flex flex-wrap gap-1.5">
         {tags.map(tag => (
           <TagBadge
@@ -30,10 +32,10 @@ export function TagFilter({ tags, selectedTags, onTagToggle, onClearFilter }: Ta
           variant="ghost"
           size="sm"
           onClick={onClearFilter}
-          className="h-6 px-2 text-xs text-muted-foreground"
+          className="h-6 px-2 text-xs text-muted-foreground font-mono glitch-hover"
         >
           <X className="h-3 w-3 mr-1" />
-          Clear
+          --clear
         </Button>
       )}
     </div>

@@ -6,22 +6,26 @@ interface StatusBadgeProps {
   status: Status;
 }
 
-const statusConfig: Record<Status, { label: string; className: string }> = {
+const statusConfig: Record<Status, { label: string; prefix: string; className: string }> = {
   active: {
-    label: 'Active',
-    className: 'bg-primary/15 text-primary border-primary/30',
+    label: 'ACTIVE',
+    prefix: '●',
+    className: 'text-primary border-primary/40 bg-primary/10',
   },
   pending: {
-    label: 'Pending',
-    className: 'bg-warning/15 text-warning border-warning/30',
+    label: 'PENDING',
+    prefix: '◐',
+    className: 'text-warning border-warning/40 bg-warning/10',
   },
   completed: {
-    label: 'Completed',
-    className: 'bg-success/15 text-success border-success/30',
+    label: 'DONE',
+    prefix: '✓',
+    className: 'text-success border-success/40 bg-success/10',
   },
   archived: {
-    label: 'Archived',
-    className: 'bg-muted text-muted-foreground border-border',
+    label: 'ARCHIVED',
+    prefix: '▣',
+    className: 'text-muted-foreground border-muted bg-muted/50',
   },
 };
 
@@ -31,10 +35,11 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border',
+        'inline-flex items-center gap-1.5 px-2 py-0.5 border text-[10px] font-mono uppercase tracking-wider',
         config.className
       )}
     >
+      <span className="animate-pulse">{config.prefix}</span>
       {config.label}
     </span>
   );

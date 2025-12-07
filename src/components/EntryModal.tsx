@@ -74,90 +74,93 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] animate-scale-in">
+      <DialogContent className="sm:max-w-[500px] animate-scale-in bg-card border-border terminal-border font-mono">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">
-            {entry ? 'Edit Entry' : 'New Entry'}
+          <DialogTitle className="text-lg font-bold text-primary glow">
+            <span className="text-muted-foreground">$</span> {entry ? 'vim --edit' : 'touch --new'}<span className="animate-blink">_</span>
           </DialogTitle>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title" className="text-xs text-muted-foreground uppercase tracking-wider">--title</Label>
             <Input
               id="title"
               value={formData.title}
               onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
               placeholder="Enter title..."
               required
+              className="bg-background border-border focus:border-primary font-mono"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor="description" className="text-xs text-muted-foreground uppercase tracking-wider">--description</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              placeholder="Enter description..."
+              placeholder="# Add notes here..."
               rows={3}
+              className="bg-background border-border focus:border-primary font-mono text-sm"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
+              <Label htmlFor="category" className="text-xs text-muted-foreground uppercase tracking-wider">--category</Label>
               <Input
                 id="category"
                 value={formData.category}
                 onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                placeholder="e.g., Work, Personal"
+                placeholder="/work, /personal"
+                className="bg-background border-border focus:border-primary font-mono"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="priority">Priority</Label>
+              <Label htmlFor="priority" className="text-xs text-muted-foreground uppercase tracking-wider">--priority</Label>
               <Select
                 value={formData.priority}
                 onValueChange={(value: 'low' | 'medium' | 'high') => 
                   setFormData(prev => ({ ...prev, priority: value }))
                 }
               >
-                <SelectTrigger>
+                <SelectTrigger className="bg-background border-border font-mono">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="low">Low</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="high">High</SelectItem>
+                <SelectContent className="bg-card border-border font-mono">
+                  <SelectItem value="low">▂░░ LOW</SelectItem>
+                  <SelectItem value="medium">▂▄░ MEDIUM</SelectItem>
+                  <SelectItem value="high">▂▄▆ HIGH</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="status">Status</Label>
+            <Label htmlFor="status" className="text-xs text-muted-foreground uppercase tracking-wider">--status</Label>
             <Select
               value={formData.status}
               onValueChange={(value: 'active' | 'pending' | 'completed' | 'archived') => 
                 setFormData(prev => ({ ...prev, status: value }))
               }
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-background border-border font-mono">
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="active">Active</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="archived">Archived</SelectItem>
+              <SelectContent className="bg-card border-border font-mono">
+                <SelectItem value="active">● ACTIVE</SelectItem>
+                <SelectItem value="pending">◐ PENDING</SelectItem>
+                <SelectItem value="completed">✓ COMPLETED</SelectItem>
+                <SelectItem value="archived">▣ ARCHIVED</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <Label>Tags</Label>
-            <div className="flex flex-wrap gap-2 min-h-[32px] p-2 border rounded-md bg-background">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">--tags</Label>
+            <div className="flex flex-wrap gap-2 min-h-[32px] p-2 border border-border bg-background">
               {selectedTags.map(tag => (
                 <TagBadge
                   key={tag.id}
@@ -172,13 +175,13 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="h-6 px-2 text-xs text-muted-foreground"
+                    className="h-6 px-2 text-[10px] text-muted-foreground font-mono"
                   >
                     <Plus className="h-3 w-3 mr-1" />
-                    Add Tag
+                    [ADD]
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-48 p-2" align="start">
+                <PopoverContent className="w-48 p-2 bg-card border-border" align="start">
                   <div className="flex flex-wrap gap-1">
                     {availableTags.length > 0 ? (
                       availableTags.map(tag => (
@@ -193,7 +196,7 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
                         />
                       ))
                     ) : (
-                      <p className="text-xs text-muted-foreground p-2">No more tags available</p>
+                      <p className="text-xs text-muted-foreground p-2 font-mono">// no tags available</p>
                     )}
                   </div>
                 </PopoverContent>
@@ -201,12 +204,12 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
             </div>
           </div>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
-              Cancel
+          <DialogFooter className="gap-2">
+            <Button type="button" variant="outline" onClick={onClose} className="font-mono text-xs glitch-hover">
+              [ESC]
             </Button>
-            <Button type="submit">
-              {entry ? 'Save Changes' : 'Create Entry'}
+            <Button type="submit" className="font-mono text-xs glitch-hover">
+              [SAVE] :wq
             </Button>
           </DialogFooter>
         </form>

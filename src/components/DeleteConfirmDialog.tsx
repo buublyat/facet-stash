@@ -19,20 +19,24 @@ interface DeleteConfirmDialogProps {
 export function DeleteConfirmDialog({ open, onClose, onConfirm, count }: DeleteConfirmDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
-      <AlertDialogContent className="animate-scale-in">
+      <AlertDialogContent className="animate-scale-in bg-card border-border terminal-border font-mono">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete {count} {count === 1 ? 'Entry' : 'Entries'}?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This action cannot be undone. {count === 1 ? 'This entry' : 'These entries'} will be permanently deleted.
+          <AlertDialogTitle className="text-destructive glow font-bold">
+            <span className="text-muted-foreground">$</span> rm -rf --confirm<span className="animate-blink">_</span>
+          </AlertDialogTitle>
+          <AlertDialogDescription className="text-muted-foreground font-mono text-xs">
+            <span className="text-warning">WARNING:</span> This action cannot be undone.
+            <br />
+            <span className="text-foreground">{count}</span> {count === 1 ? 'entry' : 'entries'} will be permanently deleted.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogFooter className="gap-2">
+          <AlertDialogCancel className="font-mono text-xs glitch-hover">[N] ABORT</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90 font-mono text-xs glitch-hover"
           >
-            Delete
+            [Y] CONFIRM DELETE
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
