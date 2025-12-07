@@ -236,7 +236,7 @@ export function DataTable({
                     <DropdownMenuContent align="end" className="w-48 bg-background border-border font-mono text-xs z-50 shadow-lg shadow-primary/10">
                       <DropdownMenuItem onClick={() => onEdit(entry)}>
                         <Pencil className="h-3 w-3 mr-2" />
-                        vim {entry.id}
+                        vim {index + 1}
                       </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-border" />
                       <DropdownMenuItem 
