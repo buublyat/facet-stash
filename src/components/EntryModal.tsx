@@ -20,7 +20,8 @@ interface EntryModalProps {
 }
 
 const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
-  title: '',
+  country: '',
+  machineId: '',
   description: '',
   category: '',
   priority: 'medium',
@@ -35,7 +36,8 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
   useEffect(() => {
     if (entry) {
       setFormData({
-        title: entry.title,
+        country: entry.country,
+        machineId: entry.machineId,
         description: entry.description,
         category: entry.category,
         priority: entry.priority,
@@ -82,16 +84,29 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="title" className="text-xs text-muted-foreground uppercase tracking-wider">--title</Label>
-            <Input
-              id="title"
-              value={formData.title}
-              onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-              placeholder="Enter title..."
-              required
-              className="bg-background border-border focus:border-primary font-mono"
-            />
+          <div className="grid grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="country" className="text-xs text-muted-foreground uppercase tracking-wider">--country</Label>
+              <Input
+                id="country"
+                value={formData.country}
+                onChange={(e) => setFormData(prev => ({ ...prev, country: e.target.value.toUpperCase().slice(0, 2) }))}
+                placeholder="US"
+                maxLength={2}
+                className="bg-background border-border focus:border-primary font-mono uppercase"
+              />
+            </div>
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="machineId" className="text-xs text-muted-foreground uppercase tracking-wider">--machine_id</Label>
+              <Input
+                id="machineId"
+                value={formData.machineId}
+                onChange={(e) => setFormData(prev => ({ ...prev, machineId: e.target.value }))}
+                placeholder="SRV-2024-001"
+                required
+                className="bg-background border-border focus:border-primary font-mono"
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
