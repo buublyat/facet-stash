@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { TagBadge } from './TagBadge';
 import { StatusBadge } from './StatusBadge';
-import { PriorityBadge } from './PriorityBadge';
+
 import { 
   ArrowUpDown, 
   ArrowUp, 
@@ -139,24 +139,6 @@ export function DataTable({
                 <SortIcon columnKey="machineId" />
               </span>
             </TableHead>
-            <TableHead
-              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
-              onClick={() => handleSort('category')}
-            >
-              <span className="flex items-center">
-                CATEGORY
-                <SortIcon columnKey="category" />
-              </span>
-            </TableHead>
-            <TableHead 
-              className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
-              onClick={() => handleSort('priority')}
-            >
-              <span className="flex items-center">
-                PRIORITY
-                <SortIcon columnKey="priority" />
-              </span>
-            </TableHead>
             <TableHead 
               className="cursor-pointer hover:text-primary transition-colors font-mono text-xs uppercase tracking-wider"
               onClick={() => handleSort('status')}
@@ -220,14 +202,6 @@ export function DataTable({
                   </div>
                 </TableCell>
                 <TableCell>
-                  <span className="text-xs font-mono text-accent">
-                    {entry.category ? `/${entry.category.toLowerCase().replace(/\s+/g, '-')}` : '—'}
-                  </span>
-                </TableCell>
-                <TableCell>
-                  <PriorityBadge priority={entry.priority} />
-                </TableCell>
-                <TableCell>
                   <StatusBadge status={entry.status} />
                 </TableCell>
                 <TableCell>
@@ -279,7 +253,7 @@ export function DataTable({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={9} className="h-32 text-center">
+              <TableCell colSpan={7} className="h-32 text-center">
                 <div className="font-mono text-muted-foreground">
                   <p className="text-sm">$ ls -la</p>
                   <p className="text-xs mt-1">drwxr-xr-x 0 entries found</p>
