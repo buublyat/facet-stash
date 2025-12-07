@@ -127,7 +127,7 @@ export function DataTable({
               onClick={() => handleSort('country')}
             >
               <span className="flex items-center">
-                CC
+                COUNTRY
                 <SortIcon columnKey="country" />
               </span>
             </TableHead>
