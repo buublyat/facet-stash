@@ -7,7 +7,6 @@ import {
 } from '@/components/ui/dialog';
 import { TagBadge } from './TagBadge';
 import { StatusBadge } from './StatusBadge';
-import { PriorityBadge } from './PriorityBadge';
 import { format } from 'date-fns';
 import { Separator } from '@/components/ui/separator';
 
@@ -60,19 +59,19 @@ export function MachineDetailModal({ open, onClose, entry, tags }: MachineDetail
             </>
           )}
 
-          {/* Category, Priority, Status */}
+          {/* Email, Auth, Status */}
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- CATEGORY</span>
-              <p className="text-accent mt-1">
-                {entry.category ? `/${entry.category.toLowerCase().replace(/\s+/g, '-')}` : '—'}
+              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- EMAIL</span>
+              <p className="text-accent mt-1 break-all">
+                {entry.email || '—'}
               </p>
             </div>
             <div>
-              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- PRIORITY</span>
-              <div className="mt-1">
-                <PriorityBadge priority={entry.priority} />
-              </div>
+              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- AUTH</span>
+              <p className="text-warning mt-1 break-all">
+                {entry.auth || '—'}
+              </p>
             </div>
             <div>
               <span className="text-muted-foreground text-xs uppercase tracking-wider">-- STATUS</span>
