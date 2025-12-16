@@ -34,6 +34,7 @@ export interface DataEntry {
   password?: string;
   owner?: string;
   orders?: string;
+  storeName?: string;
   createdAt: string;
   updatedAt: string;
 }
