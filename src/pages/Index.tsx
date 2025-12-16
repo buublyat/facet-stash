@@ -26,6 +26,7 @@ import { Terminal } from 'lucide-react';
 const Index = () => {
   const [entries, setEntries] = useState<DataEntry[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTags, setFilterTags] = useState<string[]>([]);
@@ -43,19 +44,20 @@ const Index = () => {
   useEffect(() => {
     setEntries(loadEntries());
     setTags(loadTags());
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    if (entries.length > 0) {
+    if (isInitialized) {
       saveEntries(entries);
     }
-  }, [entries]);
+  }, [entries, isInitialized]);
 
   useEffect(() => {
-    if (tags.length > 0) {
+    if (isInitialized) {
       saveTags(tags);
     }
-  }, [tags]);
+  }, [tags, isInitialized]);
 
   const availableCountries = useMemo(() => {
     const countries = new Set(entries.map(e => e.country?.toUpperCase()).filter(Boolean));
