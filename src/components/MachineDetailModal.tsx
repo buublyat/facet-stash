@@ -96,8 +96,8 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
               </>
             )}
 
-            {/* Email, Auth, Status */}
-            <div className="grid grid-cols-3 gap-4">
+            {/* Email and Auth */}
+            <div className="grid grid-cols-2 gap-4">
               <div>
                 <span className="text-muted-foreground text-xs uppercase tracking-wider">-- EMAIL</span>
                 <div className="flex gap-1 mt-1">
@@ -156,11 +156,13 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
                   </Button>
                 </div>
               </div>
-              <div>
-                <span className="text-muted-foreground text-xs uppercase tracking-wider">-- STATUS</span>
-                <div className="mt-1">
-                  <StatusBadge status={entry.status} />
-                </div>
+            </div>
+
+            {/* Status */}
+            <div>
+              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- STATUS</span>
+              <div className="mt-1">
+                <StatusBadge status={entry.status} />
               </div>
             </div>
 
