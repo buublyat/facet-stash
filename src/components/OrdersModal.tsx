@@ -9,6 +9,9 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 
 interface OrdersModalProps {
@@ -20,10 +23,12 @@ interface OrdersModalProps {
 
 export function OrdersModal({ open, onClose, entry, onUpdateEntry }: OrdersModalProps) {
   const [ordersText, setOrdersText] = useState('');
+  const [storeName, setStoreName] = useState('');
 
   useEffect(() => {
     if (entry) {
       setOrdersText(entry.orders || '');
+      setStoreName(entry.storeName || '');
     }
   }, [entry, open]);
 
@@ -33,6 +38,7 @@ export function OrdersModal({ open, onClose, entry, onUpdateEntry }: OrdersModal
     onUpdateEntry({
       ...entry,
       orders: ordersText,
+      storeName: storeName,
       updatedAt: new Date().toISOString(),
     });
     toast.success('Orders saved');
@@ -49,20 +55,36 @@ export function OrdersModal({ open, onClose, entry, onUpdateEntry }: OrdersModal
         </DialogHeader>
 
         <div className="space-y-4">
-          <div className="text-xs text-muted-foreground uppercase tracking-wider">-- ORDERS</div>
-          <Textarea
-            value={ordersText}
-            onChange={(e) => setOrdersText(e.target.value)}
-            placeholder="# Enter order information here...
+          {/* Store Name */}
+          <div>
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">-- STORE_NAME</Label>
+            <Input
+              value={storeName}
+              onChange={(e) => setStoreName(e.target.value)}
+              placeholder="$ Enter store name..."
+              className="bg-background border-border focus:border-primary font-mono text-sm mt-1"
+            />
+          </div>
+
+          <Separator className="bg-border" />
+
+          {/* Orders */}
+          <div>
+            <Label className="text-xs text-muted-foreground uppercase tracking-wider">-- ORDERS</Label>
+            <Textarea
+              value={ordersText}
+              onChange={(e) => setOrdersText(e.target.value)}
+              placeholder="# Enter order information here...
 # 
 # Example:
 # Order #001 - 2024-01-15
 # - Product: Server License
 # - Quantity: 5
 # - Status: Delivered"
-            rows={15}
-            className="bg-background border-border focus:border-primary font-mono text-sm resize-none"
-          />
+              rows={12}
+              className="bg-background border-border focus:border-primary font-mono text-sm resize-none mt-1"
+            />
+          </div>
         </div>
 
         <DialogFooter className="gap-2">
