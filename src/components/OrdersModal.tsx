@@ -178,26 +178,6 @@ export function OrdersModal({ open, onClose, entry, onUpdateEntry }: OrdersModal
               )}
             </div>
           </div>
-
-          <Separator className="bg-border" />
-
-          {/* Orders */}
-          <div>
-            <Label className="text-xs text-muted-foreground uppercase tracking-wider">-- ORDERS</Label>
-            <Textarea
-              value={ordersText}
-              onChange={(e) => setOrdersText(e.target.value)}
-              placeholder="# Enter order information here...
-# 
-# Example:
-# Order #001 - 2024-01-15
-# - Product: Server License
-# - Quantity: 5
-# - Status: Delivered"
-              rows={8}
-              className="bg-background border-border focus:border-primary font-mono text-sm resize-none mt-1"
-            />
-          </div>
         </div>
 
         <DialogFooter className="gap-2">
