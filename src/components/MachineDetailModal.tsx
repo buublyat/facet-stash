@@ -259,9 +259,9 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
 
             <Separator className="bg-border" />
 
-            {/* Owner */}
+            {/* Email */}
             <div>
-              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- OWNER</span>
+              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- EMAIL</span>
               <p className="text-foreground mt-1">{entry.owner || '—'}</p>
             </div>
 
