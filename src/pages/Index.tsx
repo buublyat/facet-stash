@@ -202,6 +202,8 @@ const Index = () => {
           onManageTags={() => setTagManagerOpen(true)}
           selectedCount={selectedIds.length}
           onDeleteSelected={() => handleDeleteEntries(selectedIds)}
+          onExportJSON={handleExportJSON}
+          onImport={() => setImportModalOpen(true)}
         />
 
         <div className="terminal-border bg-card p-3 space-y-3">
