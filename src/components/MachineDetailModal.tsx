@@ -11,8 +11,9 @@ import { TagBadge } from './TagBadge';
 import { StatusBadge } from './StatusBadge';
 import { format } from 'date-fns';
 import { Separator } from '@/components/ui/separator';
-import { Eye, EyeOff, Copy, ExternalLink } from 'lucide-react';
+import { Eye, EyeOff, Copy, ExternalLink, Package } from 'lucide-react';
 import { toast } from 'sonner';
+import { OrdersModal } from './OrdersModal';
 
 interface MachineDetailModalProps {
   open: boolean;
@@ -24,6 +25,7 @@ interface MachineDetailModalProps {
 
 export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }: MachineDetailModalProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [ordersModalOpen, setOrdersModalOpen] = useState(false);
   
   if (!entry) return null;
 
@@ -204,27 +206,18 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
 
           {/* Right Column - Additional Details */}
           <div className="space-y-4 md:border-l md:border-border md:pl-6">
-            {/* Network Info */}
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <span className="text-muted-foreground text-xs uppercase tracking-wider">-- IP_ADDRESS</span>
-                <div className="flex items-center gap-2 mt-1">
-                  <p className="text-accent font-mono">{entry.ipAddress || '—'}</p>
-                  {entry.ipAddress && (
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="h-6 w-6 p-0"
-                      onClick={() => copyToClipboard(entry.ipAddress!, 'IP')}
-                    >
-                      <Copy className="h-3 w-3" />
-                    </Button>
-                  )}
-                </div>
-              </div>
-              <div>
-                <span className="text-muted-foreground text-xs uppercase tracking-wider">-- PORT</span>
-                <p className="text-warning font-mono mt-1">{entry.port || '—'}</p>
+            {/* Orders Button */}
+            <div>
+              <span className="text-muted-foreground text-xs uppercase tracking-wider">-- ORDERS</span>
+              <div className="mt-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setOrdersModalOpen(true)}
+                  className="font-mono text-xs border-accent text-accent hover:bg-accent hover:text-accent-foreground glitch-hover"
+                >
+                  <Package className="h-3 w-3 mr-2" />
+                  [ VIEW ORDERS ]
+                </Button>
               </div>
             </div>
 
@@ -323,6 +316,14 @@ export function MachineDetailModal({ open, onClose, entry, tags, onUpdateEntry }
           [EOF]
         </div>
       </DialogContent>
+
+      {/* Orders Modal */}
+      <OrdersModal
+        open={ordersModalOpen}
+        onClose={() => setOrdersModalOpen(false)}
+        entry={entry}
+        onUpdateEntry={onUpdateEntry!}
+      />
     </Dialog>
   );
 }

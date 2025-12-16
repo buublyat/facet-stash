@@ -29,12 +29,11 @@ export interface DataEntry {
   tags: string[];
   email: 'yes' | 'no';
   auth: 'auto' | 'pass';
-  ipAddress?: string;
-  port?: string;
   url?: string;
   notes?: string;
   password?: string;
   owner?: string;
+  orders?: string;
   createdAt: string;
   updatedAt: string;
 }
