@@ -14,6 +14,7 @@ import { DataTable } from '@/components/DataTable';
 import { ActionToolbar } from '@/components/ActionToolbar';
 import { TagFilter } from '@/components/TagFilter';
 import { CountryFilter } from '@/components/CountryFilter';
+import { StatusFilter } from '@/components/StatusFilter';
 import { EntryModal } from '@/components/EntryModal';
 import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
@@ -29,6 +30,7 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterTags, setFilterTags] = useState<string[]>([]);
   const [filterCountries, setFilterCountries] = useState<string[]>([]);
+  const [filterStatuses, setFilterStatuses] = useState<('active' | 'pending' | 'completed' | 'archived' | 'error')[]>([]);
   
   const [entryModalOpen, setEntryModalOpen] = useState(false);
   const [editingEntry, setEditingEntry] = useState<DataEntry | null>(null);
@@ -74,15 +76,26 @@ const Index = () => {
       const matchesCountry = filterCountries.length === 0 ||
         filterCountries.includes(entry.country?.toUpperCase());
       
-      return matchesSearch && matchesTags && matchesCountry;
+      const matchesStatus = filterStatuses.length === 0 ||
+        filterStatuses.includes(entry.status);
+      
+      return matchesSearch && matchesTags && matchesCountry && matchesStatus;
     });
-  }, [entries, searchQuery, filterTags, filterCountries]);
+  }, [entries, searchQuery, filterTags, filterCountries, filterStatuses]);
 
   const handleCountryToggle = (country: string) => {
     setFilterCountries(prev => 
       prev.includes(country) 
         ? prev.filter(c => c !== country)
         : [...prev, country]
+    );
+  };
+
+  const handleStatusToggle = (status: 'active' | 'pending' | 'completed' | 'archived' | 'error') => {
+    setFilterStatuses(prev => 
+      prev.includes(status) 
+        ? prev.filter(s => s !== status)
+        : [...prev, status]
     );
   };
 
@@ -212,6 +225,11 @@ const Index = () => {
             onCountryToggle={handleCountryToggle}
             onClearFilter={() => setFilterCountries([])}
             availableCountries={availableCountries}
+          />
+          <StatusFilter
+            selectedStatuses={filterStatuses}
+            onStatusToggle={handleStatusToggle}
+            onClearFilter={() => setFilterStatuses([])}
           />
           {tags.length > 0 && (
             <TagFilter
