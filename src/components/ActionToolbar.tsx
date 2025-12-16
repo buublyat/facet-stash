@@ -3,7 +3,9 @@ import { Input } from '@/components/ui/input';
 import { 
   Plus, 
   Tags, 
-  Trash2
+  Trash2,
+  Download,
+  Upload
 } from 'lucide-react';
 
 interface ActionToolbarProps {
@@ -13,6 +15,8 @@ interface ActionToolbarProps {
   onManageTags: () => void;
   selectedCount: number;
   onDeleteSelected: () => void;
+  onExportJSON: () => void;
+  onImport: () => void;
 }
 
 export function ActionToolbar({
@@ -22,6 +26,8 @@ export function ActionToolbar({
   onManageTags,
   selectedCount,
   onDeleteSelected,
+  onExportJSON,
+  onImport,
 }: ActionToolbarProps) {
   return (
     <div className="flex flex-wrap items-center gap-3 p-4 terminal-border bg-card">
@@ -47,6 +53,16 @@ export function ActionToolbar({
         <Button variant="outline" onClick={onManageTags} className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
           <Tags className="h-4 w-4" />
           [TAGS]
+        </Button>
+
+        <Button variant="outline" onClick={onExportJSON} className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
+          <Download className="h-4 w-4" />
+          [EXPORT]
+        </Button>
+
+        <Button variant="outline" onClick={onImport} className="gap-2 font-mono text-xs uppercase tracking-wider glitch-hover">
+          <Upload className="h-4 w-4" />
+          [IMPORT]
         </Button>
 
         {selectedCount > 0 && (
