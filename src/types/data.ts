@@ -18,6 +18,12 @@ export interface Tag {
   color: TagColor;
 }
 
+export interface Store {
+  id: string;
+  name: string;
+  description: string;
+}
+
 export interface DataEntry {
   id: string;
   country: string;
@@ -34,7 +40,7 @@ export interface DataEntry {
   password?: string;
   owner?: string;
   orders?: string;
-  storeName?: string;
+  stores?: Store[];
   createdAt: string;
   updatedAt: string;
 }
