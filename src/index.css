@@ -45,19 +45,19 @@
 
     --radius: 0.25rem;
 
-    /* Hacker Tag Colors */
-    --tag-red: 0 72% 51%;
-    --tag-orange: 25 95% 53%;
-    --tag-amber: 45 100% 51%;
+    /* Hacker Tag Colors - optimized for contrast */
+    --tag-red: 0 85% 60%;
+    --tag-orange: 25 95% 58%;
+    --tag-amber: 45 100% 55%;
     --tag-lime: 120 100% 50%;
-    --tag-green: 120 80% 40%;
-    --tag-teal: 160 100% 40%;
+    --tag-green: 120 80% 45%;
+    --tag-teal: 160 100% 45%;
     --tag-cyan: 180 100% 50%;
-    --tag-blue: 210 100% 60%;
-    --tag-indigo: 240 80% 60%;
-    --tag-purple: 270 100% 65%;
-    --tag-pink: 330 100% 65%;
-    --tag-rose: 350 100% 60%;
+    --tag-blue: 210 100% 65%;
+    --tag-indigo: 240 80% 65%;
+    --tag-purple: 270 100% 72%;
+    --tag-pink: 330 100% 70%;
+    --tag-rose: 350 100% 65%;
 
     /* Glitch colors */
     --glitch-1: 180 100% 50%;

@@ -254,12 +254,12 @@ const Index = () => {
         />
 
         {/* Footer */}
-        <div className="text-center text-muted-foreground/30 font-mono text-xs py-4">
-          <span className="text-muted-foreground/50">[</span>
+        <div className="text-center text-muted-foreground font-mono text-xs py-4">
+          <span className="text-muted-foreground">[</span>
           EOF
-          <span className="text-muted-foreground/50">]</span>
+          <span className="text-muted-foreground">]</span>
           {' '}• LocalStorage v1.0 • 
-          <span className="text-primary/50"> Connection: SECURE </span>
+          <span className="text-primary"> Connection: SECURE </span>
         </div>
       </main>
 

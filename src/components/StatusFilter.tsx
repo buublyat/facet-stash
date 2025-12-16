@@ -11,11 +11,11 @@ interface StatusFilterProps {
 }
 
 const statuses: { value: Status; label: string; colorClass: string }[] = [
-  { value: 'active', label: 'Active', colorClass: 'border-green-500 text-green-500 hover:bg-green-500/20' },
-  { value: 'pending', label: 'Pending', colorClass: 'border-yellow-500 text-yellow-500 hover:bg-yellow-500/20' },
-  { value: 'completed', label: 'Completed', colorClass: 'border-cyan-500 text-cyan-500 hover:bg-cyan-500/20' },
-  { value: 'archived', label: 'Archived', colorClass: 'border-gray-500 text-gray-500 hover:bg-gray-500/20' },
-  { value: 'error', label: 'Error', colorClass: 'border-red-500 text-red-500 hover:bg-red-500/20' },
+  { value: 'active', label: 'Active', colorClass: 'border-green-400 text-green-400 hover:bg-green-400/20' },
+  { value: 'pending', label: 'Pending', colorClass: 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/20' },
+  { value: 'completed', label: 'Completed', colorClass: 'border-cyan-400 text-cyan-400 hover:bg-cyan-400/20' },
+  { value: 'archived', label: 'Archived', colorClass: 'border-gray-400 text-gray-400 hover:bg-gray-400/20' },
+  { value: 'error', label: 'Error', colorClass: 'border-red-400 text-red-400 hover:bg-red-400/20' },
 ];
 
 export function StatusFilter({ selectedStatuses, onStatusToggle, onClearFilter }: StatusFilterProps) {
