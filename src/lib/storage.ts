@@ -24,6 +24,12 @@ export const defaultEntries: DataEntry[] = [
     tags: ['1', '2'],
     email: 'yes',
     auth: 'auto',
+    ipAddress: '192.168.1.100',
+    port: '8080',
+    url: 'https://api.example.com',
+    notes: 'Primary server for API docs',
+    password: 'admin123',
+    owner: 'John Doe',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -38,6 +44,11 @@ export const defaultEntries: DataEntry[] = [
     tags: ['2', '5'],
     email: 'no',
     auth: 'pass',
+    ipAddress: '10.0.0.25',
+    port: '443',
+    url: 'https://dashboard.example.de',
+    notes: 'Design review server',
+    owner: 'Anna Schmidt',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -52,6 +63,10 @@ export const defaultEntries: DataEntry[] = [
     tags: ['1', '4'],
     email: 'yes',
     auth: 'auto',
+    ipAddress: '172.16.0.50',
+    port: '3000',
+    notes: 'Auth service instance',
+    owner: 'Yuki Tanaka',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -66,6 +81,8 @@ export const defaultEntries: DataEntry[] = [
     tags: ['2', '6'],
     email: 'no',
     auth: 'pass',
+    url: 'https://reports.example.co.uk',
+    owner: 'James Wilson',
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   },
@@ -116,7 +133,7 @@ export function exportToJSON(entries: DataEntry[], tags: Tag[]): string {
 export function exportToCSV(entries: DataEntry[], tags: Tag[]): string {
   const tagMap = new Map(tags.map(t => [t.id, t.name]));
   
-  const headers = ['ID', 'Country', 'Machine ID', 'Description', 'Category', 'Priority', 'Status', 'Tags', 'Created At', 'Updated At'];
+  const headers = ['ID', 'Country', 'Machine ID', 'Description', 'Category', 'Priority', 'Status', 'Tags', 'Email', 'Auth', 'IP Address', 'Port', 'URL', 'Owner', 'Notes', 'Created At', 'Updated At'];
   const rows = entries.map(entry => [
     entry.id,
     entry.country,
@@ -126,6 +143,13 @@ export function exportToCSV(entries: DataEntry[], tags: Tag[]): string {
     entry.priority,
     entry.status,
     `"${entry.tags.map(id => tagMap.get(id) || id).join(', ')}"`,
+    entry.email,
+    entry.auth,
+    entry.ipAddress || '',
+    entry.port || '',
+    entry.url || '',
+    entry.owner || '',
+    `"${(entry.notes || '').replace(/"/g, '""')}"`,
     entry.createdAt,
     entry.updatedAt,
   ]);
