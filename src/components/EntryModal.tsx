@@ -29,6 +29,12 @@ const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
   tags: [],
   email: 'no',
   auth: 'auto',
+  ipAddress: '',
+  port: '',
+  url: '',
+  notes: '',
+  password: '',
+  owner: '',
 };
 
 export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalProps) {
@@ -47,6 +53,12 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         tags: entry.tags,
         email: entry.email || 'no',
         auth: entry.auth || 'auto',
+        ipAddress: entry.ipAddress || '',
+        port: entry.port || '',
+        url: entry.url || '',
+        notes: entry.notes || '',
+        password: entry.password || '',
+        owner: entry.owner || '',
       });
     } else {
       setFormData(defaultEntry);
@@ -80,7 +92,7 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] animate-scale-in bg-card border-border terminal-border font-mono">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto animate-scale-in bg-card border-border terminal-border font-mono">
         <DialogHeader>
           <DialogTitle className="text-lg font-bold text-primary glow">
             <span className="text-muted-foreground">$</span> {entry ? 'vim --edit' : 'touch --new'}<span className="animate-blink">_</span>
@@ -194,6 +206,77 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
                 <SelectItem value="error">✕ ERROR</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          {/* Network Info */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="ipAddress" className="text-xs text-muted-foreground uppercase tracking-wider">--ip_address</Label>
+              <Input
+                id="ipAddress"
+                value={formData.ipAddress}
+                onChange={(e) => setFormData(prev => ({ ...prev, ipAddress: e.target.value }))}
+                placeholder="192.168.1.100"
+                className="bg-background border-border focus:border-primary font-mono"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="port" className="text-xs text-muted-foreground uppercase tracking-wider">--port</Label>
+              <Input
+                id="port"
+                value={formData.port}
+                onChange={(e) => setFormData(prev => ({ ...prev, port: e.target.value }))}
+                placeholder="8080"
+                className="bg-background border-border focus:border-primary font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="url" className="text-xs text-muted-foreground uppercase tracking-wider">--url</Label>
+            <Input
+              id="url"
+              value={formData.url}
+              onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
+              placeholder="https://example.com"
+              className="bg-background border-border focus:border-primary font-mono"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="owner" className="text-xs text-muted-foreground uppercase tracking-wider">--owner</Label>
+              <Input
+                id="owner"
+                value={formData.owner}
+                onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
+                placeholder="John Doe"
+                className="bg-background border-border focus:border-primary font-mono"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-xs text-muted-foreground uppercase tracking-wider">--password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
+                placeholder="••••••••"
+                className="bg-background border-border focus:border-primary font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="text-xs text-muted-foreground uppercase tracking-wider">--notes</Label>
+            <Textarea
+              id="notes"
+              value={formData.notes}
+              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              placeholder="# Additional notes..."
+              rows={2}
+              className="bg-background border-border focus:border-primary font-mono text-sm"
+            />
           </div>
 
           <div className="space-y-2">
