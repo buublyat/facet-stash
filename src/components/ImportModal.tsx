@@ -6,6 +6,48 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Upload, FileJson } from 'lucide-react';
 import { toast } from 'sonner';
+import { z } from 'zod';
+
+// Zod schemas for input validation
+const TagColorSchema = z.enum(['red', 'orange', 'amber', 'lime', 'green', 'teal', 'cyan', 'blue', 'indigo', 'purple', 'pink', 'rose']);
+
+const TagSchema = z.object({
+  id: z.string().max(100),
+  name: z.string().max(100),
+  color: TagColorSchema,
+});
+
+const StoreSchema = z.object({
+  id: z.string().max(100),
+  name: z.string().max(200),
+  description: z.string().max(2000),
+});
+
+const DataEntrySchema = z.object({
+  id: z.string().max(100),
+  country: z.string().max(10),
+  machineId: z.string().max(200),
+  description: z.string().max(2000),
+  category: z.string().max(100),
+  priority: z.enum(['low', 'medium', 'high']),
+  status: z.enum(['active', 'pending', 'completed', 'archived', 'error']),
+  tags: z.array(z.string().max(100)).max(50),
+  email: z.enum(['yes', 'no']),
+  auth: z.enum(['auto', 'pass']),
+  url: z.string().max(2000).optional(),
+  notes: z.string().max(10000).optional(),
+  password: z.string().max(500).optional(),
+  owner: z.string().max(200).optional(),
+  orders: z.string().max(10000).optional(),
+  stores: z.array(StoreSchema).max(100).optional(),
+  createdAt: z.string().max(100),
+  updatedAt: z.string().max(100),
+});
+
+const ImportDataSchema = z.object({
+  entries: z.array(DataEntrySchema).max(10000),
+  tags: z.array(TagSchema).max(500).optional(),
+});
 
 interface ImportModalProps {
   open: boolean;
@@ -21,6 +63,12 @@ export function ImportModal({ open, onClose, onImport }: ImportModalProps) {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Limit file size to 10MB
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('File too large: Maximum 10MB allowed');
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const content = event.target?.result as string;
@@ -31,21 +79,35 @@ export function ImportModal({ open, onClose, onImport }: ImportModalProps) {
 
   const handleImport = () => {
     try {
-      const data = JSON.parse(jsonContent);
-      
-      if (!data.entries || !Array.isArray(data.entries)) {
-        throw new Error('Invalid format: missing entries array');
+      // Parse JSON first
+      let data: unknown;
+      try {
+        data = JSON.parse(jsonContent);
+      } catch {
+        toast.error('Parse error: Invalid JSON syntax');
+        return;
       }
+
+      // Validate with zod schema
+      const result = ImportDataSchema.safeParse(data);
       
-      const entries: DataEntry[] = data.entries;
-      const tags: Tag[] = data.tags || [];
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        const path = firstError.path.join('.');
+        toast.error(`Validation error: ${path ? `${path} - ` : ''}${firstError.message}`);
+        return;
+      }
+
+      const validatedData = result.data;
+      const entries = validatedData.entries as DataEntry[];
+      const tags = (validatedData.tags || []) as Tag[];
       
       onImport(entries, tags);
       toast.success(`Imported ${entries.length} entries`);
       setJsonContent('');
       onClose();
     } catch (error) {
-      toast.error('Parse error: Invalid JSON format');
+      toast.error('Import error: Unexpected error occurred');
     }
   };
 
