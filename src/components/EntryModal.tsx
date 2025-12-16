@@ -29,12 +29,11 @@ const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
   tags: [],
   email: 'no',
   auth: 'auto',
-  ipAddress: '',
-  port: '',
   url: '',
   notes: '',
   password: '',
   owner: '',
+  orders: '',
 };
 
 export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalProps) {
@@ -53,12 +52,11 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         tags: entry.tags,
         email: entry.email || 'no',
         auth: entry.auth || 'auto',
-        ipAddress: entry.ipAddress || '',
-        port: entry.port || '',
         url: entry.url || '',
         notes: entry.notes || '',
         password: entry.password || '',
         owner: entry.owner || '',
+        orders: entry.orders || '',
       });
     } else {
       setFormData(defaultEntry);
@@ -208,29 +206,6 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
             </Select>
           </div>
 
-          {/* Network Info */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="ipAddress" className="text-xs text-muted-foreground uppercase tracking-wider">--ip_address</Label>
-              <Input
-                id="ipAddress"
-                value={formData.ipAddress}
-                onChange={(e) => setFormData(prev => ({ ...prev, ipAddress: e.target.value }))}
-                placeholder="192.168.1.100"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="port" className="text-xs text-muted-foreground uppercase tracking-wider">--port</Label>
-              <Input
-                id="port"
-                value={formData.port}
-                onChange={(e) => setFormData(prev => ({ ...prev, port: e.target.value }))}
-                placeholder="8080"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
-            </div>
-          </div>
 
           <div className="space-y-2">
             <Label htmlFor="url" className="text-xs text-muted-foreground uppercase tracking-wider">--url</Label>
