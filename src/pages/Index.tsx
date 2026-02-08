@@ -6,8 +6,6 @@ import {
   saveSheets,
   loadActiveSheetId,
   saveActiveSheetId,
-  loadTags, 
-  saveTags, 
   generateId,
   exportToJSON,
   exportToCSV,
@@ -31,7 +29,6 @@ import { Terminal, BarChart3 } from 'lucide-react';
 const Index = () => {
   const [sheets, setSheets] = useState<Sheet[]>([]);
   const [activeSheetId, setActiveSheetId] = useState<string>('default');
-  const [tags, setTags] = useState<Tag[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -50,7 +47,6 @@ const Index = () => {
   useEffect(() => {
     setSheets(loadSheets());
     setActiveSheetId(loadActiveSheetId());
-    setTags(loadTags());
     setIsInitialized(true);
   }, []);
 
@@ -68,24 +64,28 @@ const Index = () => {
     }
   }, [activeSheetId, isInitialized]);
 
-  useEffect(() => {
-    if (isInitialized) {
-      saveTags(tags);
-    }
-  }, [tags, isInitialized]);
-
-  // Get entries from active sheet
+  // Get active sheet with entries and tags
   const activeSheet = useMemo(() => {
     return sheets.find(s => s.id === activeSheetId) || sheets[0];
   }, [sheets, activeSheetId]);
 
   const entries = activeSheet?.entries || [];
+  const tags = activeSheet?.tags || [];
 
   // Helper to update entries in the active sheet
   const updateEntries = (updater: (prev: DataEntry[]) => DataEntry[]) => {
     setSheets(prev => prev.map(sheet => 
       sheet.id === activeSheetId 
         ? { ...sheet, entries: updater(sheet.entries) }
+        : sheet
+    ));
+  };
+
+  // Helper to update tags in the active sheet
+  const updateTags = (updater: (prev: Tag[]) => Tag[]) => {
+    setSheets(prev => prev.map(sheet => 
+      sheet.id === activeSheetId 
+        ? { ...sheet, tags: updater(sheet.tags) }
         : sheet
     ));
   };
@@ -178,7 +178,11 @@ const Index = () => {
   };
 
   const handleTagsChange = (newTags: Tag[]) => {
-    setTags(newTags);
+    setSheets(prev => prev.map(sheet => 
+      sheet.id === activeSheetId 
+        ? { ...sheet, tags: newTags }
+        : sheet
+    ));
   };
 
   const handleTagToggle = (tagId: string) => {
@@ -205,11 +209,15 @@ const Index = () => {
     const existingTagIds = new Set(tags.map(t => t.id));
     const newTags = importedTags.filter(t => !existingTagIds.has(t.id));
     
-    if (newTags.length > 0) {
-      setTags(prev => [...prev, ...newTags]);
-    }
-    
-    updateEntries(prev => [...importedEntries, ...prev]);
+    setSheets(prev => prev.map(sheet => 
+      sheet.id === activeSheetId 
+        ? { 
+            ...sheet, 
+            entries: [...importedEntries, ...sheet.entries],
+            tags: newTags.length > 0 ? [...sheet.tags, ...newTags] : sheet.tags
+          }
+        : sheet
+    ));
   };
 
   // Sheet management handlers

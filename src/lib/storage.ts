@@ -2,7 +2,6 @@ import { DataEntry, Tag, Sheet } from '@/types/data';
 
 const SHEETS_KEY = 'data-manager-sheets';
 const ACTIVE_SHEET_KEY = 'data-manager-active-sheet';
-const TAGS_KEY = 'data-manager-tags';
 
 export const defaultTags: Tag[] = [
   { id: '1', name: 'Important', color: 'red' },
@@ -91,6 +90,7 @@ const defaultSheet: Sheet = {
   id: 'default',
   name: 'Main',
   entries: defaultEntries,
+  tags: defaultTags,
   createdAt: new Date().toISOString(),
 };
 
@@ -99,19 +99,27 @@ export function loadSheets(): Sheet[] {
   try {
     const stored = localStorage.getItem(SHEETS_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const sheets: Sheet[] = JSON.parse(stored);
+      // Migrate sheets that don't have tags property
+      return sheets.map(sheet => ({
+        ...sheet,
+        tags: sheet.tags || defaultTags,
+      }));
     }
-    // Migrate from old entries format if exists
+    // Migrate from old entries + tags format if exists
     const oldEntries = localStorage.getItem('data-manager-entries');
+    const oldTags = localStorage.getItem('data-manager-tags');
     if (oldEntries) {
       const migratedSheet: Sheet = {
         id: 'default',
         name: 'Main',
         entries: JSON.parse(oldEntries),
+        tags: oldTags ? JSON.parse(oldTags) : defaultTags,
         createdAt: new Date().toISOString(),
       };
       saveSheets([migratedSheet]);
       localStorage.removeItem('data-manager-entries');
+      localStorage.removeItem('data-manager-tags');
       return [migratedSheet];
     }
     saveSheets([defaultSheet]);
@@ -135,23 +143,6 @@ export function loadActiveSheetId(): string {
 
 export function saveActiveSheetId(sheetId: string): void {
   localStorage.setItem(ACTIVE_SHEET_KEY, sheetId);
-}
-
-export function loadTags(): Tag[] {
-  try {
-    const stored = localStorage.getItem(TAGS_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-    saveTags(defaultTags);
-    return defaultTags;
-  } catch {
-    return defaultTags;
-  }
-}
-
-export function saveTags(tags: Tag[]): void {
-  localStorage.setItem(TAGS_KEY, JSON.stringify(tags));
 }
 
 export function generateId(): string {
