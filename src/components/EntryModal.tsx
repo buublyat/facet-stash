@@ -29,9 +29,7 @@ const defaultEntry: Omit<DataEntry, 'id' | 'createdAt' | 'updatedAt'> = {
   tags: [],
   email: 'no',
   auth: 'auto',
-  url: '',
   notes: '',
-  password: '',
   owner: '',
   orders: '',
 };
@@ -52,9 +50,7 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
         tags: entry.tags,
         email: entry.email || 'no',
         auth: entry.auth || 'auto',
-        url: entry.url || '',
         notes: entry.notes || '',
-        password: entry.password || '',
         owner: entry.owner || '',
         orders: entry.orders || '',
       });
@@ -206,40 +202,15 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
             </Select>
           </div>
 
-
           <div className="space-y-2">
-            <Label htmlFor="url" className="text-xs text-muted-foreground uppercase tracking-wider">--url</Label>
+            <Label htmlFor="owner" className="text-xs text-muted-foreground uppercase tracking-wider">--owner</Label>
             <Input
-              id="url"
-              value={formData.url}
-              onChange={(e) => setFormData(prev => ({ ...prev, url: e.target.value }))}
-              placeholder="https://example.com"
+              id="owner"
+              value={formData.owner}
+              onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
+              placeholder="John Doe"
               className="bg-background border-border focus:border-primary font-mono"
             />
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="owner" className="text-xs text-muted-foreground uppercase tracking-wider">--owner</Label>
-              <Input
-                id="owner"
-                value={formData.owner}
-                onChange={(e) => setFormData(prev => ({ ...prev, owner: e.target.value }))}
-                placeholder="John Doe"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-xs text-muted-foreground uppercase tracking-wider">--password</Label>
-              <Input
-                id="password"
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-                placeholder="••••••••"
-                className="bg-background border-border focus:border-primary font-mono"
-              />
-            </div>
           </div>
 
           <div className="space-y-2">
