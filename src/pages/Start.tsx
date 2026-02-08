@@ -88,7 +88,7 @@ const Start = () => {
 
       {/* Anonymous Mask - top right with floating animation */}
       <div 
-        className={`fixed top-20 right-4 z-[15] transition-all duration-1000 pointer-events-none ${
+        className={`fixed top-12 right-8 z-[15] transition-all duration-1000 pointer-events-none ${
           showMeme3 ? 'opacity-45 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
@@ -101,7 +101,7 @@ const Start = () => {
 
       {/* Hacker Cat - bottom right with floating animation */}
       <div 
-        className={`fixed bottom-4 right-4 z-[15] transition-all duration-1000 pointer-events-none ${
+        className={`fixed bottom-12 right-8 z-[15] transition-all duration-1000 pointer-events-none ${
           showCat ? 'opacity-60 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
@@ -109,6 +109,19 @@ const Start = () => {
           src={hackerCat} 
           alt="Hacker Cat" 
           className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float drop-shadow-[0_0_20px_rgba(0,255,0,0.6)]"
+        />
+      </div>
+
+      {/* Extra right-side meme - middle right for filling space */}
+      <div 
+        className={`fixed top-1/2 -translate-y-1/2 right-2 z-[14] transition-all duration-1000 pointer-events-none ${
+          showMeme1 ? 'opacity-35 translate-x-0' : 'opacity-0 translate-x-10'
+        }`}
+      >
+        <img 
+          src={hackerman} 
+          alt="Hackerman" 
+          className="w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 animate-float-reverse drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]"
         />
       </div>
 
