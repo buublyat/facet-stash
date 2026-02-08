@@ -213,19 +213,6 @@ const Dashboard = () => {
                           <Cell key={`cell-${index}`} fill={entry.color} />
                         ))}
                       </Pie>
-                      <Tooltip 
-                        formatter={(value: number, name: string) => [
-                          `${value} (${totalEntries > 0 ? Math.round((value / totalEntries) * 100) : 0}%)`,
-                          name
-                        ]}
-                        contentStyle={{ 
-                          backgroundColor: 'hsl(var(--card))', 
-                          border: '1px solid hsl(var(--primary))',
-                          borderRadius: '4px',
-                          fontFamily: 'monospace',
-                          fontSize: '12px'
-                        }}
-                      />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
