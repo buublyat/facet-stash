@@ -131,56 +131,6 @@ export function EntryModal({ open, onClose, onSave, entry, tags }: EntryModalPro
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wider">--email</Label>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant={formData.email === 'yes' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFormData(prev => ({ ...prev, email: 'yes' }))}
-                  className="flex-1 font-mono text-xs"
-                >
-                  [ YES ]
-                </Button>
-                <Button
-                  type="button"
-                  variant={formData.email === 'no' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFormData(prev => ({ ...prev, email: 'no' }))}
-                  className="flex-1 font-mono text-xs"
-                >
-                  [ NO ]
-                </Button>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-xs text-muted-foreground uppercase tracking-wider">--auth</Label>
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  variant={formData.auth === 'auto' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFormData(prev => ({ ...prev, auth: 'auto' }))}
-                  className="flex-1 font-mono text-xs"
-                >
-                  [ AUTO ]
-                </Button>
-                <Button
-                  type="button"
-                  variant={formData.auth === 'pass' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setFormData(prev => ({ ...prev, auth: 'pass' }))}
-                  className="flex-1 font-mono text-xs"
-                >
-                  [ PASS ]
-                </Button>
-              </div>
-            </div>
-          </div>
-
           <div className="space-y-2">
             <Label htmlFor="status" className="text-xs text-muted-foreground uppercase tracking-wider">--status</Label>
             <Select
