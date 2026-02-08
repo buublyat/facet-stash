@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { DataEntry, Tag } from '@/types/data';
-import { loadEntries, loadTags } from '@/lib/storage';
+import { DataEntry, Tag, Sheet } from '@/types/data';
+import { loadSheets, loadTags } from '@/lib/storage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -20,13 +20,18 @@ import {
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
-  const [entries, setEntries] = useState<DataEntry[]>([]);
+  const [sheets, setSheets] = useState<Sheet[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
-    setEntries(loadEntries());
+    setSheets(loadSheets());
     setTags(loadTags());
   }, []);
+
+  // Combine all entries from all sheets for dashboard
+  const entries: DataEntry[] = useMemo(() => {
+    return sheets.flatMap(sheet => sheet.entries);
+  }, [sheets]);
 
   const stats = useMemo(() => {
     const statusCounts = {
@@ -102,7 +107,7 @@ const Dashboard = () => {
               </div>
             </div>
             <Button asChild variant="outline" className="font-mono">
-              <Link to="/">
+              <Link to="/table">
                 <Database className="h-4 w-4 mr-2" />
                 Data Manager
                 <ArrowRight className="h-4 w-4 ml-2" />

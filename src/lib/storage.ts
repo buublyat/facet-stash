@@ -1,6 +1,7 @@
-import { DataEntry, Tag } from '@/types/data';
+import { DataEntry, Tag, Sheet } from '@/types/data';
 
-const ENTRIES_KEY = 'data-manager-entries';
+const SHEETS_KEY = 'data-manager-sheets';
+const ACTIVE_SHEET_KEY = 'data-manager-active-sheet';
 const TAGS_KEY = 'data-manager-tags';
 
 export const defaultTags: Tag[] = [
@@ -86,21 +87,54 @@ export const defaultEntries: DataEntry[] = [
   },
 ];
 
-export function loadEntries(): DataEntry[] {
+const defaultSheet: Sheet = {
+  id: 'default',
+  name: 'Main',
+  entries: defaultEntries,
+  createdAt: new Date().toISOString(),
+};
+
+// Sheet management
+export function loadSheets(): Sheet[] {
   try {
-    const stored = localStorage.getItem(ENTRIES_KEY);
+    const stored = localStorage.getItem(SHEETS_KEY);
     if (stored) {
       return JSON.parse(stored);
     }
-    saveEntries(defaultEntries);
-    return defaultEntries;
+    // Migrate from old entries format if exists
+    const oldEntries = localStorage.getItem('data-manager-entries');
+    if (oldEntries) {
+      const migratedSheet: Sheet = {
+        id: 'default',
+        name: 'Main',
+        entries: JSON.parse(oldEntries),
+        createdAt: new Date().toISOString(),
+      };
+      saveSheets([migratedSheet]);
+      localStorage.removeItem('data-manager-entries');
+      return [migratedSheet];
+    }
+    saveSheets([defaultSheet]);
+    return [defaultSheet];
   } catch {
-    return defaultEntries;
+    return [defaultSheet];
   }
 }
 
-export function saveEntries(entries: DataEntry[]): void {
-  localStorage.setItem(ENTRIES_KEY, JSON.stringify(entries));
+export function saveSheets(sheets: Sheet[]): void {
+  localStorage.setItem(SHEETS_KEY, JSON.stringify(sheets));
+}
+
+export function loadActiveSheetId(): string {
+  try {
+    return localStorage.getItem(ACTIVE_SHEET_KEY) || 'default';
+  } catch {
+    return 'default';
+  }
+}
+
+export function saveActiveSheetId(sheetId: string): void {
+  localStorage.setItem(ACTIVE_SHEET_KEY, sheetId);
 }
 
 export function loadTags(): Tag[] {
