@@ -57,13 +57,16 @@ const Dashboard = () => {
     return { statusCounts, priorityCounts, topCountries };
   }, [entries]);
 
+  // Vibrant, distinct colors for better readability
   const statusChartData = [
-    { name: 'Active', value: stats.statusCounts.active, color: 'hsl(var(--chart-1))' },
-    { name: 'Pending', value: stats.statusCounts.pending, color: 'hsl(var(--chart-2))' },
-    { name: 'Completed', value: stats.statusCounts.completed, color: 'hsl(var(--chart-3))' },
-    { name: 'Archived', value: stats.statusCounts.archived, color: 'hsl(var(--chart-4))' },
-    { name: 'Error', value: stats.statusCounts.error, color: 'hsl(var(--chart-5))' },
+    { name: 'Active', value: stats.statusCounts.active, color: '#22c55e', icon: '●' },
+    { name: 'Pending', value: stats.statusCounts.pending, color: '#eab308', icon: '◐' },
+    { name: 'Completed', value: stats.statusCounts.completed, color: '#3b82f6', icon: '✓' },
+    { name: 'Archived', value: stats.statusCounts.archived, color: '#6b7280', icon: '◾' },
+    { name: 'Error', value: stats.statusCounts.error, color: '#ef4444', icon: '✗' },
   ].filter(d => d.value > 0);
+
+  const totalEntries = entries.length;
 
   const priorityChartData = [
     { name: 'High', value: stats.priorityCounts.high, fill: 'hsl(var(--destructive))' },
@@ -190,40 +193,66 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={statusChartData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={40}
-                      outerRadius={70}
-                      paddingAngle={2}
-                      dataKey="value"
-                    >
-                      {statusChartData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '4px',
-                        fontFamily: 'monospace'
-                      }}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex flex-wrap gap-2 justify-center mt-2">
-                {statusChartData.map((entry) => (
-                  <div key={entry.name} className="flex items-center gap-1 text-xs font-mono">
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-                    <span className="text-muted-foreground">{entry.name}: {entry.value}</span>
-                  </div>
-                ))}
+              <div className="flex gap-4">
+                {/* Pie Chart */}
+                <div className="h-40 w-40 flex-shrink-0">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={statusChartData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={35}
+                        outerRadius={60}
+                        paddingAngle={3}
+                        dataKey="value"
+                        stroke="hsl(var(--background))"
+                        strokeWidth={2}
+                      >
+                        {statusChartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        formatter={(value: number, name: string) => [
+                          `${value} (${totalEntries > 0 ? Math.round((value / totalEntries) * 100) : 0}%)`,
+                          name
+                        ]}
+                        contentStyle={{ 
+                          backgroundColor: 'hsl(var(--card))', 
+                          border: '1px solid hsl(var(--primary))',
+                          borderRadius: '4px',
+                          fontFamily: 'monospace',
+                          fontSize: '12px'
+                        }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                
+                {/* Legend with values and percentages */}
+                <div className="flex flex-col justify-center gap-2 flex-1">
+                  {statusChartData.map((entry) => {
+                    const percentage = totalEntries > 0 ? Math.round((entry.value / totalEntries) * 100) : 0;
+                    return (
+                      <div key={entry.name} className="flex items-center justify-between text-xs font-mono gap-2">
+                        <div className="flex items-center gap-2">
+                          <span style={{ color: entry.color }}>{entry.icon}</span>
+                          <span className="text-foreground">{entry.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground">{entry.value}</span>
+                          <span style={{ color: entry.color }} className="font-bold min-w-[36px] text-right">
+                            {percentage}%
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {statusChartData.length === 0 && (
+                    <span className="text-muted-foreground text-xs">No data</span>
+                  )}
+                </div>
               </div>
             </CardContent>
           </Card>
