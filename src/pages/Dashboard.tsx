@@ -218,18 +218,23 @@ const Dashboard = () => {
                 </div>
                 
                 {/* Legend with values and percentages */}
-                <div className="flex flex-col justify-center gap-2 flex-1">
+                <div className="flex flex-col justify-center gap-2 flex-1 min-w-0 overflow-hidden">
                   {statusChartData.map((entry) => {
                     const percentage = totalEntries > 0 ? Math.round((entry.value / totalEntries) * 100) : 0;
                     return (
-                      <div key={entry.name} className="flex items-center justify-between text-xs font-mono gap-2">
-                        <div className="flex items-center gap-2">
-                          <span style={{ color: entry.color }}>{entry.icon}</span>
-                          <span className="text-foreground">{entry.name}</span>
+                      <div key={entry.name} className="flex items-center justify-between text-xs font-mono gap-2 min-w-0">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span 
+                            className="w-3 h-3 flex items-center justify-center text-[10px] flex-shrink-0" 
+                            style={{ color: entry.color }}
+                          >
+                            ●
+                          </span>
+                          <span className="text-foreground truncate">{entry.name}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-muted-foreground">{entry.value}</span>
-                          <span style={{ color: entry.color }} className="font-bold min-w-[36px] text-right">
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          <span className="text-muted-foreground w-4 text-right">{entry.value}</span>
+                          <span style={{ color: entry.color }} className="font-bold w-9 text-right">
                             {percentage}%
                           </span>
                         </div>
