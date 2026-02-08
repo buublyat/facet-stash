@@ -14,11 +14,10 @@ import {
   Clock, 
   Archive,
   Zap,
-  Globe,
   ArrowRight,
   BarChart3
 } from 'lucide-react';
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
   const [entries, setEntries] = useState<DataEntry[]>([]);
@@ -74,10 +73,6 @@ const Dashboard = () => {
     { name: 'Low', value: stats.priorityCounts.low, fill: '#22c55e', icon: '▼' },
   ];
 
-  const countryChartData = stats.topCountries.map(([country, count]) => ({
-    name: country,
-    value: count,
-  }));
 
   const recentEntries = useMemo(() => {
     return [...entries]
@@ -183,7 +178,7 @@ const Dashboard = () => {
         </div>
 
         {/* Charts Row */}
-        <div className="grid md:grid-cols-3 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {/* Status Distribution */}
           <Card className="terminal-border bg-card">
             <CardHeader className="pb-2">
@@ -293,38 +288,6 @@ const Dashboard = () => {
                 {priorityChartData.every(p => p.value === 0) && (
                   <span className="text-muted-foreground text-xs font-mono">No data</span>
                 )}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Top Countries */}
-          <Card className="terminal-border bg-card">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-mono text-primary flex items-center gap-2">
-                <Globe className="h-4 w-4" />
-                TOP_COUNTRIES
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={countryChartData}>
-                    <XAxis 
-                      dataKey="name" 
-                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10, fontFamily: 'monospace' }}
-                    />
-                    <YAxis hide />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '4px',
-                        fontFamily: 'monospace'
-                      }}
-                    />
-                    <Bar dataKey="value" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
