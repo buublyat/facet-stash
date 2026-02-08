@@ -69,7 +69,7 @@ const Start = () => {
         <img 
           src={hackerman} 
           alt="Hackerman" 
-          className="w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
         />
       </div>
 
@@ -82,7 +82,7 @@ const Start = () => {
         <img 
           src={hackerPepe} 
           alt="Hacker Pepe" 
-          className="w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-reverse drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-reverse drop-shadow-[0_0_20px_rgba(0,255,0,0.4)]"
         />
       </div>
 
@@ -95,7 +95,7 @@ const Start = () => {
         <img 
           src={anonymousMask} 
           alt="Anonymous Mask" 
-          className="w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 animate-float-slow drop-shadow-[0_0_18px_rgba(0,255,0,0.5)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
         />
       </div>
 
