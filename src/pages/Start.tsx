@@ -5,6 +5,7 @@ import { Terminal } from 'lucide-react';
 import hackerCat from '@/assets/hacker-cat.png';
 import hackerman from '@/assets/hackerman.png';
 import hackerPepe from '@/assets/hacker-pepe.png';
+import anonymousMask from '@/assets/anonymous-mask.png';
 
 const Start = () => {
   const navigate = useNavigate();
@@ -13,12 +14,14 @@ const Start = () => {
   const [showCat, setShowCat] = useState(false);
   const [showMeme1, setShowMeme1] = useState(false);
   const [showMeme2, setShowMeme2] = useState(false);
+  const [showMeme3, setShowMeme3] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
     // Memes appear first with staggered timing
     const meme1Timer = setTimeout(() => setShowMeme1(true), 300);
     const meme2Timer = setTimeout(() => setShowMeme2(true), 700);
+    const meme3Timer = setTimeout(() => setShowMeme3(true), 900);
     // Cat appears after 0.5s
     const catTimer = setTimeout(() => setShowCat(true), 500);
     // Logo appears after 1.5s
@@ -29,6 +32,7 @@ const Start = () => {
     return () => {
       clearTimeout(meme1Timer);
       clearTimeout(meme2Timer);
+      clearTimeout(meme3Timer);
       clearTimeout(catTimer);
       clearTimeout(logoTimer);
       clearTimeout(buttonTimer);
@@ -38,6 +42,7 @@ const Start = () => {
   const handleSkip = () => {
     setShowMeme1(true);
     setShowMeme2(true);
+    setShowMeme3(true);
     setShowCat(true);
     setShowLogo(true);
     setShowButton(true);
@@ -81,6 +86,19 @@ const Start = () => {
         />
       </div>
 
+      {/* Anonymous Mask - top right with floating animation */}
+      <div 
+        className={`fixed top-20 right-4 z-[15] transition-all duration-1000 pointer-events-none ${
+          showMeme3 ? 'opacity-45 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <img 
+          src={anonymousMask} 
+          alt="Anonymous Mask" 
+          className="w-24 h-24 md:w-36 md:h-36 lg:w-44 lg:h-44 animate-float-slow drop-shadow-[0_0_18px_rgba(0,255,0,0.5)]"
+        />
+      </div>
+
       {/* Hacker Cat - bottom right with floating animation */}
       <div 
         className={`fixed bottom-4 right-4 z-[15] transition-all duration-1000 pointer-events-none ${
@@ -90,7 +108,7 @@ const Start = () => {
         <img 
           src={hackerCat} 
           alt="Hacker Cat" 
-          className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 animate-float drop-shadow-[0_0_25px_rgba(0,255,0,0.6)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float drop-shadow-[0_0_20px_rgba(0,255,0,0.6)]"
         />
       </div>
 
