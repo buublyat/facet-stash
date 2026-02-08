@@ -45,6 +45,13 @@ export interface DataEntry {
   updatedAt: string;
 }
 
+export interface Sheet {
+  id: string;
+  name: string;
+  entries: DataEntry[];
+  createdAt: string;
+}
+
 export type SortDirection = 'asc' | 'desc';
 
 export interface SortConfig {

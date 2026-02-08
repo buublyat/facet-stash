@@ -1,9 +1,11 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { DataEntry, Tag } from '@/types/data';
+import { DataEntry, Tag, Sheet } from '@/types/data';
 import { 
-  loadEntries, 
-  saveEntries, 
+  loadSheets,
+  saveSheets,
+  loadActiveSheetId,
+  saveActiveSheetId,
   loadTags, 
   saveTags, 
   generateId,
@@ -21,12 +23,14 @@ import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
 import { DeleteConfirmDialog } from '@/components/DeleteConfirmDialog';
 import { MachineDetailModal } from '@/components/MachineDetailModal';
+import { SheetSelector } from '@/components/SheetSelector';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Terminal, BarChart3 } from 'lucide-react';
 
 const Index = () => {
-  const [entries, setEntries] = useState<DataEntry[]>([]);
+  const [sheets, setSheets] = useState<Sheet[]>([]);
+  const [activeSheetId, setActiveSheetId] = useState<string>('default');
   const [tags, setTags] = useState<Tag[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -44,16 +48,25 @@ const Index = () => {
   const [detailEntry, setDetailEntry] = useState<DataEntry | null>(null);
 
   useEffect(() => {
-    setEntries(loadEntries());
+    setSheets(loadSheets());
+    setActiveSheetId(loadActiveSheetId());
     setTags(loadTags());
     setIsInitialized(true);
   }, []);
 
+  // Save sheets when they change
   useEffect(() => {
     if (isInitialized) {
-      saveEntries(entries);
+      saveSheets(sheets);
     }
-  }, [entries, isInitialized]);
+  }, [sheets, isInitialized]);
+
+  // Save active sheet ID when it changes
+  useEffect(() => {
+    if (isInitialized) {
+      saveActiveSheetId(activeSheetId);
+    }
+  }, [activeSheetId, isInitialized]);
 
   useEffect(() => {
     if (isInitialized) {
@@ -61,9 +74,25 @@ const Index = () => {
     }
   }, [tags, isInitialized]);
 
+  // Get entries from active sheet
+  const activeSheet = useMemo(() => {
+    return sheets.find(s => s.id === activeSheetId) || sheets[0];
+  }, [sheets, activeSheetId]);
+
+  const entries = activeSheet?.entries || [];
+
+  // Helper to update entries in the active sheet
+  const updateEntries = (updater: (prev: DataEntry[]) => DataEntry[]) => {
+    setSheets(prev => prev.map(sheet => 
+      sheet.id === activeSheetId 
+        ? { ...sheet, entries: updater(sheet.entries) }
+        : sheet
+    ));
+  };
+
   const availableCountries = useMemo(() => {
     const countries = new Set(entries.map(e => e.country?.toUpperCase()).filter(Boolean));
-    return Array.from(countries).sort();
+    return Array.from(countries).sort() as string[];
   }, [entries]);
 
   const filteredEntries = useMemo(() => {
@@ -115,10 +144,10 @@ const Index = () => {
 
   const handleSaveEntry = (entry: DataEntry) => {
     if (editingEntry) {
-      setEntries(prev => prev.map(e => e.id === entry.id ? entry : e));
+      updateEntries(prev => prev.map(e => e.id === entry.id ? entry : e));
       toast.success('Entry updated successfully');
     } else {
-      setEntries(prev => [entry, ...prev]);
+      updateEntries(prev => [entry, ...prev]);
       toast.success('Entry created successfully');
     }
   };
@@ -131,7 +160,7 @@ const Index = () => {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    setEntries(prev => [duplicate, ...prev]);
+    updateEntries(prev => [duplicate, ...prev]);
     toast.success('Entry duplicated');
   };
 
@@ -141,7 +170,7 @@ const Index = () => {
   };
 
   const confirmDelete = () => {
-    setEntries(prev => prev.filter(e => !pendingDeleteIds.includes(e.id)));
+    updateEntries(prev => prev.filter(e => !pendingDeleteIds.includes(e.id)));
     setSelectedIds(prev => prev.filter(id => !pendingDeleteIds.includes(id)));
     toast.success(`Deleted ${pendingDeleteIds.length} ${pendingDeleteIds.length === 1 ? 'entry' : 'entries'}`);
     setDeleteDialogOpen(false);
@@ -180,7 +209,35 @@ const Index = () => {
       setTags(prev => [...prev, ...newTags]);
     }
     
-    setEntries(prev => [...importedEntries, ...prev]);
+    updateEntries(prev => [...importedEntries, ...prev]);
+  };
+
+  // Sheet management handlers
+  const handleSelectSheet = (sheetId: string) => {
+    setActiveSheetId(sheetId);
+    setSelectedIds([]);
+  };
+
+  const handleCreateSheet = (sheet: Sheet) => {
+    setSheets(prev => [...prev, sheet]);
+    setActiveSheetId(sheet.id);
+    setSelectedIds([]);
+  };
+
+  const handleRenameSheet = (sheetId: string, newName: string) => {
+    setSheets(prev => prev.map(s => s.id === sheetId ? { ...s, name: newName } : s));
+  };
+
+  const handleDeleteSheet = (sheetId: string) => {
+    setSheets(prev => {
+      const filtered = prev.filter(s => s.id !== sheetId);
+      // If deleting active sheet, switch to first remaining
+      if (sheetId === activeSheetId && filtered.length > 0) {
+        setActiveSheetId(filtered[0].id);
+      }
+      return filtered;
+    });
+    setSelectedIds([]);
   };
 
   return (
@@ -204,12 +261,22 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <Button asChild variant="outline" className="font-mono">
-              <Link to="/dashboard">
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Dashboard
-              </Link>
-            </Button>
+            <div className="flex items-center gap-3">
+              <SheetSelector
+                sheets={sheets}
+                activeSheetId={activeSheetId}
+                onSelectSheet={handleSelectSheet}
+                onCreateSheet={handleCreateSheet}
+                onRenameSheet={handleRenameSheet}
+                onDeleteSheet={handleDeleteSheet}
+              />
+              <Button asChild variant="outline" className="font-mono">
+                <Link to="/dashboard">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </header>
@@ -307,7 +374,7 @@ const Index = () => {
         entry={detailEntry}
         tags={tags}
         onUpdateEntry={(updatedEntry) => {
-          setEntries(prev => prev.map(e => e.id === updatedEntry.id ? updatedEntry : e));
+          updateEntries(prev => prev.map(e => e.id === updatedEntry.id ? updatedEntry : e));
           setDetailEntry(updatedEntry);
         }}
       />
