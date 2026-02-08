@@ -59,11 +59,11 @@ const Dashboard = () => {
 
   // Vibrant, distinct colors for better readability
   const statusChartData = [
-    { name: 'Active', value: stats.statusCounts.active, color: '#22c55e', icon: '●' },
-    { name: 'Pending', value: stats.statusCounts.pending, color: '#eab308', icon: '◐' },
-    { name: 'Completed', value: stats.statusCounts.completed, color: '#3b82f6', icon: '✓' },
-    { name: 'Archived', value: stats.statusCounts.archived, color: '#6b7280', icon: '◾' },
-    { name: 'Error', value: stats.statusCounts.error, color: '#ef4444', icon: '✗' },
+    { name: 'Active', value: stats.statusCounts.active, color: '#22c55e', icon: '⬤' },
+    { name: 'Pending', value: stats.statusCounts.pending, color: '#eab308', icon: '◑' },
+    { name: 'Completed', value: stats.statusCounts.completed, color: '#3b82f6', icon: '✔' },
+    { name: 'Archived', value: stats.statusCounts.archived, color: '#6b7280', icon: '■' },
+    { name: 'Error', value: stats.statusCounts.error, color: '#ef4444', icon: '✖' },
   ].filter(d => d.value > 0);
 
   const totalEntries = entries.length;
