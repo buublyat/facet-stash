@@ -2,26 +2,32 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MatrixRain } from '@/components/MatrixRain';
 import { Terminal } from 'lucide-react';
+import hackerCat from '@/assets/hacker-cat.png';
 
 const Start = () => {
   const navigate = useNavigate();
   const [showLogo, setShowLogo] = useState(false);
   const [showButton, setShowButton] = useState(false);
+  const [showCat, setShowCat] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
+    // Cat appears after 0.5s
+    const catTimer = setTimeout(() => setShowCat(true), 500);
     // Logo appears after 1.5s
     const logoTimer = setTimeout(() => setShowLogo(true), 1500);
     // Button appears after 2.5s
     const buttonTimer = setTimeout(() => setShowButton(true), 2500);
 
     return () => {
+      clearTimeout(catTimer);
       clearTimeout(logoTimer);
       clearTimeout(buttonTimer);
     };
   }, []);
 
   const handleSkip = () => {
+    setShowCat(true);
     setShowLogo(true);
     setShowButton(true);
   };
@@ -37,6 +43,19 @@ const Start = () => {
     >
       {/* Matrix Rain Background */}
       <MatrixRain />
+
+      {/* Hacker Cat - bottom right with floating animation */}
+      <div 
+        className={`fixed bottom-8 right-8 z-15 transition-all duration-1000 pointer-events-none ${
+          showCat ? 'opacity-60 translate-y-0' : 'opacity-0 translate-y-10'
+        }`}
+      >
+        <img 
+          src={hackerCat} 
+          alt="Hacker Cat" 
+          className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 animate-float drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
+        />
+      </div>
 
       {/* Scanlines overlay */}
       <div className="fixed inset-0 scanlines pointer-events-none z-10" />
@@ -106,7 +125,7 @@ const Start = () => {
       <div className="fixed bottom-4 left-4 text-muted-foreground/30 font-mono text-xs z-20">
         └──[ v1.0.0 ]
       </div>
-      <div className="fixed bottom-4 right-4 text-muted-foreground/30 font-mono text-xs z-20">
+      <div className="fixed bottom-4 right-4 text-muted-foreground/30 font-mono text-xs z-20 hidden md:block">
         [ ENCRYPTED ]──┘
       </div>
     </div>
