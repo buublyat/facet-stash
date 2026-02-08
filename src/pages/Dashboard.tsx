@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { DataEntry, Tag, Sheet } from '@/types/data';
-import { loadSheets, loadTags } from '@/lib/storage';
+import { loadSheets } from '@/lib/storage';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -21,16 +21,22 @@ import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
   const [sheets, setSheets] = useState<Sheet[]>([]);
-  const [tags, setTags] = useState<Tag[]>([]);
 
   useEffect(() => {
     setSheets(loadSheets());
-    setTags(loadTags());
   }, []);
 
-  // Combine all entries from all sheets for dashboard
+  // Combine all entries and tags from all sheets for dashboard
   const entries: DataEntry[] = useMemo(() => {
     return sheets.flatMap(sheet => sheet.entries);
+  }, [sheets]);
+
+  const tags: Tag[] = useMemo(() => {
+    // Combine all unique tags from all sheets
+    const allTags = sheets.flatMap(sheet => sheet.tags);
+    const uniqueTags = new Map<string, Tag>();
+    allTags.forEach(tag => uniqueTags.set(tag.id, tag));
+    return Array.from(uniqueTags.values());
   }, [sheets]);
 
   const stats = useMemo(() => {

@@ -54,6 +54,7 @@ export const SheetSelector = ({
       id: generateId(),
       name: newSheetName.trim(),
       entries: [],
+      tags: [],
       createdAt: new Date().toISOString(),
     };
     onCreateSheet(sheet);

@@ -49,6 +49,7 @@ export interface Sheet {
   id: string;
   name: string;
   entries: DataEntry[];
+  tags: Tag[];
   createdAt: string;
 }
 
