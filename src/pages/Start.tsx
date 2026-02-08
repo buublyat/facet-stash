@@ -57,27 +57,27 @@ const Start = () => {
 
       {/* Hackerman - bottom left with floating animation */}
       <div 
-        className={`fixed bottom-20 left-4 z-[15] transition-all duration-1000 pointer-events-none ${
+        className={`fixed bottom-16 left-4 z-[15] transition-all duration-1000 pointer-events-none ${
           showMeme1 ? 'opacity-50 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
         <img 
           src={hackerman} 
           alt="Hackerman" 
-          className="w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72 animate-float-slow drop-shadow-[0_0_25px_rgba(0,255,0,0.5)]"
+          className="w-32 h-32 md:w-44 md:h-44 lg:w-52 lg:h-52 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
         />
       </div>
 
       {/* Hacker Pepe - top left with reverse floating animation */}
       <div 
-        className={`fixed top-20 left-4 z-[15] transition-all duration-1000 pointer-events-none ${
+        className={`fixed top-16 left-4 z-[15] transition-all duration-1000 pointer-events-none ${
           showMeme2 ? 'opacity-40 translate-y-0' : 'opacity-0 translate-y-10'
         }`}
       >
         <img 
           src={hackerPepe} 
           alt="Hacker Pepe" 
-          className="w-40 h-40 md:w-56 md:h-56 lg:w-64 lg:h-64 animate-float-reverse drop-shadow-[0_0_20px_rgba(0,255,0,0.4)]"
+          className="w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 animate-float-reverse drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]"
         />
       </div>
 
@@ -90,7 +90,7 @@ const Start = () => {
         <img 
           src={hackerCat} 
           alt="Hacker Cat" 
-          className="w-72 h-72 md:w-96 md:h-96 lg:w-[500px] lg:h-[500px] animate-float drop-shadow-[0_0_30px_rgba(0,255,0,0.6)]"
+          className="w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 animate-float drop-shadow-[0_0_25px_rgba(0,255,0,0.6)]"
         />
       </div>
 
