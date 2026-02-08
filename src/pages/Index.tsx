@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { DataEntry, Tag } from '@/types/data';
 import { 
   loadEntries, 
@@ -20,8 +21,9 @@ import { TagManager } from '@/components/TagManager';
 import { ImportModal } from '@/components/ImportModal';
 import { DeleteConfirmDialog } from '@/components/DeleteConfirmDialog';
 import { MachineDetailModal } from '@/components/MachineDetailModal';
+import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Terminal } from 'lucide-react';
+import { Terminal, BarChart3 } from 'lucide-react';
 
 const Index = () => {
   const [entries, setEntries] = useState<DataEntry[]>([]);
@@ -188,18 +190,26 @@ const Index = () => {
 
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2 terminal-border bg-primary/10">
-              <Terminal className="h-6 w-6 text-primary glow" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 terminal-border bg-primary/10">
+                <Terminal className="h-6 w-6 text-primary glow" />
+              </div>
+              <div className="font-mono">
+                <h1 className="text-lg font-bold text-primary glow tracking-wider">
+                  DATA_MANAGER<span className="animate-blink">_</span>
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  <span className="text-accent">$</span> entries: {entries.length} | tags: {tags.length} | selected: {selectedIds.length}
+                </p>
+              </div>
             </div>
-            <div className="font-mono">
-              <h1 className="text-lg font-bold text-primary glow tracking-wider">
-                DATA_MANAGER<span className="animate-blink">_</span>
-              </h1>
-              <p className="text-xs text-muted-foreground">
-                <span className="text-accent">$</span> entries: {entries.length} | tags: {tags.length} | selected: {selectedIds.length}
-              </p>
-            </div>
+            <Button asChild variant="outline" className="font-mono">
+              <Link to="/dashboard">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Dashboard
+              </Link>
+            </Button>
           </div>
         </div>
       </header>
