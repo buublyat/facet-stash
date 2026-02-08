@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MatrixRain } from '@/components/MatrixRain';
 import { Terminal } from 'lucide-react';
 import hackerCat from '@/assets/hacker-cat.png';
 import hackerman from '@/assets/hackerman.png';
@@ -57,8 +56,8 @@ const Start = () => {
       className="fixed inset-0 overflow-hidden cursor-pointer"
       onClick={!showButton ? handleSkip : undefined}
     >
-      {/* Matrix Rain Background */}
-      <MatrixRain />
+      {/* Background */}
+      <div className="fixed inset-0 bg-background" />
 
       {/* Hackerman - bottom left with floating animation */}
       <div 
