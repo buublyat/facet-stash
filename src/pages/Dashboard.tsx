@@ -69,9 +69,9 @@ const Dashboard = () => {
   const totalEntries = entries.length;
 
   const priorityChartData = [
-    { name: 'High', value: stats.priorityCounts.high, fill: 'hsl(var(--destructive))' },
-    { name: 'Medium', value: stats.priorityCounts.medium, fill: 'hsl(var(--chart-2))' },
-    { name: 'Low', value: stats.priorityCounts.low, fill: 'hsl(var(--chart-3))' },
+    { name: 'High', value: stats.priorityCounts.high, fill: '#ef4444', icon: '▲' },
+    { name: 'Medium', value: stats.priorityCounts.medium, fill: '#eab308', icon: '◆' },
+    { name: 'Low', value: stats.priorityCounts.low, fill: '#22c55e', icon: '▼' },
   ];
 
   const countryChartData = stats.topCountries.map(([country, count]) => ({
@@ -266,27 +266,41 @@ const Dashboard = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="h-48">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={priorityChartData} layout="vertical">
-                    <XAxis type="number" hide />
-                    <YAxis 
-                      type="category" 
-                      dataKey="name" 
-                      width={60}
-                      tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12, fontFamily: 'monospace' }}
-                    />
-                    <Tooltip 
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '4px',
-                        fontFamily: 'monospace'
-                      }}
-                    />
-                    <Bar dataKey="value" radius={[0, 4, 4, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="space-y-4">
+                {priorityChartData.map((item) => {
+                  const maxValue = Math.max(...priorityChartData.map(p => p.value), 1);
+                  const percentage = totalEntries > 0 ? Math.round((item.value / totalEntries) * 100) : 0;
+                  const barWidth = maxValue > 0 ? (item.value / maxValue) * 100 : 0;
+                  
+                  return (
+                    <div key={item.name} className="space-y-1">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <div className="flex items-center gap-2">
+                          <span style={{ color: item.fill }}>{item.icon}</span>
+                          <span className="text-foreground">{item.name}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-muted-foreground">{item.value}</span>
+                          <span style={{ color: item.fill }} className="font-bold min-w-[36px] text-right">
+                            {percentage}%
+                          </span>
+                        </div>
+                      </div>
+                      <div className="h-3 bg-muted/30 rounded overflow-hidden">
+                        <div 
+                          className="h-full rounded transition-all duration-500"
+                          style={{ 
+                            width: `${barWidth}%`,
+                            backgroundColor: item.fill 
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+                {priorityChartData.every(p => p.value === 0) && (
+                  <span className="text-muted-foreground text-xs font-mono">No data</span>
+                )}
               </div>
             </CardContent>
           </Card>
