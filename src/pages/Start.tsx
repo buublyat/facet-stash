@@ -69,7 +69,7 @@ const Start = () => {
         <img 
           src={hackerman} 
           alt="Hackerman" 
-          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)] mix-blend-screen"
         />
       </div>
 
@@ -82,7 +82,7 @@ const Start = () => {
         <img 
           src={hackerPepe} 
           alt="Hacker Pepe" 
-          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-reverse drop-shadow-[0_0_20px_rgba(0,255,0,0.4)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-reverse drop-shadow-[0_0_20px_rgba(0,255,0,0.4)] mix-blend-screen"
         />
       </div>
 
@@ -95,7 +95,7 @@ const Start = () => {
         <img 
           src={anonymousMask} 
           alt="Anonymous Mask" 
-          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float-slow drop-shadow-[0_0_20px_rgba(0,255,0,0.5)] mix-blend-screen"
         />
       </div>
 
@@ -108,7 +108,7 @@ const Start = () => {
         <img 
           src={hackerCat} 
           alt="Hacker Cat" 
-          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float drop-shadow-[0_0_20px_rgba(0,255,0,0.6)]"
+          className="w-36 h-36 md:w-48 md:h-48 lg:w-56 lg:h-56 animate-float drop-shadow-[0_0_20px_rgba(0,255,0,0.6)] mix-blend-screen"
         />
       </div>
 
