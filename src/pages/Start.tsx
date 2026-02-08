@@ -112,19 +112,6 @@ const Start = () => {
         />
       </div>
 
-      {/* Extra right-side meme - middle right for filling space */}
-      <div 
-        className={`fixed top-1/2 -translate-y-1/2 right-2 z-[14] transition-all duration-1000 pointer-events-none ${
-          showMeme1 ? 'opacity-35 translate-x-0' : 'opacity-0 translate-x-10'
-        }`}
-      >
-        <img 
-          src={hackerman} 
-          alt="Hackerman" 
-          className="w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 animate-float-reverse drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]"
-        />
-      </div>
-
       {/* Scanlines overlay */}
       <div className="fixed inset-0 scanlines pointer-events-none z-10" />
 
