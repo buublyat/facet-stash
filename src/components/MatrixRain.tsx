@@ -26,13 +26,13 @@ export const MatrixRain = ({ className = '' }: MatrixRainProps) => {
     const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*(){}[]|;:<>?/\\~`+=_-';
     const charArray = chars.split('');
 
-    const fontSize = 14;
+    const fontSize = 12;
     const columns = Math.floor(canvas.width / fontSize);
 
     // Array to track the y position of each column
     const drops: number[] = [];
     for (let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * -100;
+      drops[i] = Math.random() * -50;
     }
 
     // Trail effect - stores previous characters for fading
@@ -43,7 +43,7 @@ export const MatrixRain = ({ className = '' }: MatrixRainProps) => {
 
     const draw = () => {
       // Semi-transparent black to create fade effect
-      ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+      ctx.fillStyle = 'rgba(10, 10, 10, 0.04)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.font = `${fontSize}px "Fira Code", monospace`;
@@ -57,29 +57,29 @@ export const MatrixRain = ({ className = '' }: MatrixRainProps) => {
 
         // Leading character (brightest)
         ctx.fillStyle = '#00ff00';
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 15;
         ctx.shadowColor = '#00ff00';
         ctx.fillText(char, x, y);
 
-        // Trail characters with varying opacity
+        // Trail characters with varying opacity - longer trails
         ctx.shadowBlur = 0;
-        for (let j = 1; j < 20; j++) {
+        for (let j = 1; j < 30; j++) {
           const trailY = y - j * fontSize;
           if (trailY > 0) {
-            const opacity = 1 - (j / 20);
-            ctx.fillStyle = `rgba(0, 255, 0, ${opacity * 0.5})`;
+            const opacity = 1 - (j / 30);
+            ctx.fillStyle = `rgba(0, 255, 0, ${opacity * 0.6})`;
             const trailChar = charArray[Math.floor(Math.random() * charArray.length)];
             ctx.fillText(trailChar, x, trailY);
           }
         }
 
-        // Reset drop when it goes off screen
-        if (y > canvas.height && Math.random() > 0.975) {
+        // Reset drop when it goes off screen - more frequent resets
+        if (y > canvas.height && Math.random() > 0.95) {
           drops[i] = 0;
         }
 
-        // Move drop down
-        drops[i] += 0.5 + Math.random() * 0.5;
+        // Move drop down - slightly faster
+        drops[i] += 0.6 + Math.random() * 0.6;
       }
     };
 
